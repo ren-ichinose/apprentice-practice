@@ -26,3 +26,8 @@ root
      └── quest-ruby
          └── quest_2
 </pre>
+
+#### ブランチの運用規則  
+- 命名規則：yymmdd-practice
+- 日毎にブランチを切る。
+- ブランチは削除しない。
