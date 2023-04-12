@@ -5,7 +5,6 @@ const helloLoop = () => {
 
 helloLoop();
 
-
 // n回羊の数えを出力する関数sheepを定義
 const sheep = (n: number) => {
   for (let i = 1; i <= n; i++) console.log(`羊が${i}匹`);
@@ -13,20 +12,18 @@ const sheep = (n: number) => {
 
 sheep(3);
 
-
 // 1から100までの足し算の結果を出力する関数を定義
 const sum_1_100 = () => {
-  let sumResult: number = 0;
+  let sumResult = 0;
   for (let i = 1; i <= 100; i++) sumResult += i;
   console.log(sumResult);
 };
 
 sum_1_100();
 
-
 // 2つの整数xとyが与えられ、xからyまでの足し算の結果を出力する関数を定義
 const sum = (x: number, y: number) => {
-  let sumResult: number = 0;
+  let sumResult = 0;
   for (; x <= y; x++) {
     sumResult += x;
   }
@@ -34,7 +31,6 @@ const sum = (x: number, y: number) => {
 };
 
 sum(10, 80);
-
 
 // n日間お手伝いを継続した時のお小遣いの金額を算出する関数fibonacciを定義
 const fibonacci = (n: number) => {
