@@ -2,16 +2,15 @@ import { Item } from "./item_class";
 
 export class Beverage extends Item {
   constructor(BeverageName: string) {
-    let BeveragPrice = 0;
-
+    const ciderPrice = 100
+    const colaPrice = 150
+    
     if (BeverageName === "cider") {
-      BeveragPrice = 100;
+      super(BeverageName, ciderPrice);
     } else if (BeverageName === "cola") {
-      BeveragPrice = 150;
+      super(BeverageName, colaPrice);
     } else {
       throw new Error("cider or cola");
-    }
-
-    super(BeverageName, BeveragPrice);
+    } 
   }
 }
