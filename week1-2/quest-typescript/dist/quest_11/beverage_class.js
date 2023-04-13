@@ -4,17 +4,17 @@ exports.Beverage = void 0;
 const item_class_1 = require("./item_class");
 class Beverage extends item_class_1.Item {
     constructor(BeverageName) {
-        let BeveragPrice = 0;
+        const ciderPrice = 100;
+        const colaPrice = 150;
         if (BeverageName === "cider") {
-            BeveragPrice = 100;
+            super(BeverageName, ciderPrice);
         }
         else if (BeverageName === "cola") {
-            BeveragPrice = 150;
+            super(BeverageName, colaPrice);
         }
         else {
             throw new Error("cider or cola");
         }
-        super(BeverageName, BeveragPrice);
     }
 }
 exports.Beverage = Beverage;

@@ -10,37 +10,27 @@ class VendingMachine {
         this.cupsStock = 0;
     }
     press_button(beverage) {
-        if (!this.cupsStock) {
-            console.log("");
-            return;
-        }
+        if (!this.cupsStock)
+            return console.log("");
         const beverageName = beverage.getName();
         const beveragePrice = beverage.getPrice();
-        if (!beverageName) {
-            console.log("");
-            return;
-        }
-        if (this.deposit_coins < beveragePrice) {
-            console.log("");
-            return;
-        }
+        if (!beverageName)
+            return console.log("");
+        if (this.deposit_coins < beveragePrice)
+            return console.log("");
         this.cupsStock -= 1;
         this.deposit_coins -= beveragePrice;
         return beverageName;
     }
     deposit_coin(coin) {
-        if (coin !== 100) {
-            console.log("");
-            return;
-        }
+        if (coin !== 100)
+            return console.log("");
         this.deposit_coins += coin;
     }
     add_cup(cups) {
         const cups_max = 100 - this.cupsStock;
-        if (cups_max < cups) {
-            console.log(`${cups_max}以下の数字を入力してください`);
-            return;
-        }
+        if (cups_max < cups)
+            return console.log(`${cups_max}以下の数字を入力してください`);
         this.cupsStock += cups;
     }
 }
