@@ -10,7 +10,6 @@
     "strict": true,
     "removeComments": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
