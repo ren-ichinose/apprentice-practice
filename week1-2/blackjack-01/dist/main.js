@@ -1,3 +1,3 @@
 "use strict";
-console.log('hello world');
+console.log('ブラックジャックを開始します。');
 //# sourceMappingURL=main.js.map
