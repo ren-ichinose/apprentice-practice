@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const participant_1 = require("./classes/participant/participant");
-console.log('ブラックジャックを開始します。');
-const player = new participant_1.Participant('あなた', 'プレイヤー');
-const dealer = new participant_1.Participant('ディーラー', 'ディーラー');
+const dealer_1 = require("./classes/person/dealer");
+const player_1 = require("./classes/person/player");
+const player = new player_1.Player();
+const dealer = new dealer_1.Dealer();
 console.log(player.name);
 console.log(dealer.name);
 //# sourceMappingURL=main.js.map
