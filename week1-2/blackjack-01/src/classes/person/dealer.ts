@@ -1,28 +1,28 @@
-import type { CardTypes } from '../interfaces/interfaces';
+import type { Card } from '../card/card';
 import { Person } from './person';
 
 
 export class Dealer extends Person {
-  /*
-  数字と絵柄の組み合わせから構成されている、プレイヤーが現在持っているカードの配列
-  */
-  private _cards: CardTypes[];
-
-  constructor() {
+  constructor(card: Card) {
     const name = 'ディーラー';
     const role = 'dealer';
-    super(name, role);
-    this._cards = [];
-  }
-
-  get cards(): CardTypes[] {
-    return this._cards;
+    super(name, role, card);
   }
 
   /*
-  現在のカードの配列に引数にとるカードを加える
+    トランプをランダムに取得する
+    カードクラスから、取得したトランプを削除する
+    取得したトランプは表示しない
   */
-  set cards(cards) {
-    this._cards = [...this._cards, ...cards];
+  getRandomOneSilent(): void {
+    const { type, number } = this._card.getRandomOne();
+    this._myCards.push({ type, number });
+    console.log('ディーラーの引いた2枚目のカードはわかりません。');
+  }
+
+  // 2枚目のトランプを表示する
+  displayCards(): void {
+    const { type, number } = this._myCards[1];
+    console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
   }
 }
