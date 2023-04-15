@@ -3,17 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dealer = void 0;
 const person_1 = require("./person");
 class Dealer extends person_1.Person {
-    constructor() {
+    constructor(card) {
         const name = 'ディーラー';
         const role = 'dealer';
-        super(name, role);
-        this._cards = [];
+        super(name, role, card);
     }
-    get cards() {
-        return this._cards;
+    getRandomOneSilent() {
+        const { type, number } = this._card.getRandomOne();
+        this._myCards.push({ type, number });
+        console.log('ディーラーの引いた2枚目のカードはわかりません。');
     }
-    set cards(cards) {
-        this._cards = [...this._cards, ...cards];
+    displayCards() {
+        const { type, number } = this._myCards[1];
+        console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
     }
 }
 exports.Dealer = Dealer;
