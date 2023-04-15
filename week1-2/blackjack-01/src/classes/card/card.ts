@@ -1,19 +1,18 @@
-import type { CardTypes } from "../interfaces/interfaces";
+import type { CardTypes } from '../interfaces/interfaces';
+
 
 export class Card {
   /*
+    _currentCards: { type: string, number: number}[]
     トランプを格納するメンバ変数
-    { type: string, number: number}[]
   */
   private _currentCards: CardTypes[];
 
   constructor() {
     const mapCards: CardTypes[] = [];
     const types = ['スペード', 'ハート', 'ダイヤ', 'クラブ'];
-
-    /*
-      52枚のトランプを生成する関数
-    */
+    
+    // 52枚のトランプを生成する関数
     types.forEach((type) => {
       [...Array(13)].forEach((_, i) => {
         const number = i + 1;
@@ -28,22 +27,21 @@ export class Card {
     return this._currentCards;
   }
 
-  /*
-    getOne関数を使用し、ランダムにトランプを返す関数
-  */
-  randomOne(): CardTypes {
-    const randomIndex = Math.floor(Math.random() * 53);
-    const { type, number } = this._currentCards[randomIndex];
-    if (type === undefined) throw new Error();
+  // ランダムに1枚のトランプを返す関数
+  getRandomOne(): CardTypes {
+    const randomIndex = Math.floor(Math.random() * this._currentCards.length);
+    const { type, number }: CardTypes = this._currentCards[randomIndex];
 
-    const randomCard = this.getOne(type, number);
+    // 生成されたランダムなカードの組み合わせを引数に私、トランプを取得している
+    const randomCard = this.getSelectOne(type, number);
     return randomCard;
   }
 
-  /*
-    任意のトランプを返す関数
-  */
-  getOne(type: string, number: number): CardTypes {
+
+  // 指定されたトランプを返す関数
+  getSelectOne(type: string, number: number): CardTypes {
+
+    // 現在の全てのトランプから、指定されたトランプを取得する
     const findedCard = this._currentCards.find((card) => {
       if (card.type !== type) return false;
       if (card.number !== number) return false;
@@ -51,13 +49,15 @@ export class Card {
     });
     if (findedCard === undefined) throw new Error();
 
+    
+    // _currentCardsから取得したトランプを取り除く
     const newCurrentCards = this._currentCards.filter((card) => {
-      if (card.type !== findedCard.type) return true;
-      if (card.number !== number) return true;
-      return false;
+      if (card.type === findedCard.type && card.number === findedCard.number)
+        return false;
+      return true;
     });
 
-    this._currentCards = [...newCurrentCards];
+    this._currentCards = newCurrentCards;
     return findedCard;
   }
 }

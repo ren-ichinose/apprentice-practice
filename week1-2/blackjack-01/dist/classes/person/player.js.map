@@ -1,0 +1,1 @@
+{"version":3,"file":"player.js","sourceRoot":"","sources":["../../../src/classes/person/player.ts"],"names":[],"mappings":";;;AACA,qCAAkC;AAElC,MAAa,MAAO,SAAQ,eAAM;IAChC,YAAY,IAAU;QACpB,MAAM,IAAI,GAAG,KAAK,CAAC;QACnB,MAAM,IAAI,GAAG,QAAQ,CAAC;QACtB,KAAK,CAAC,IAAI,EAAE,IAAI,EAAE,IAAI,CAAC,CAAC;IAC1B,CAAC;CACF;AAND,wBAMC"}

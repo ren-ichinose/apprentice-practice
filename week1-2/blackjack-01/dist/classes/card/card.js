@@ -16,15 +16,13 @@ class Card {
     get currentCards() {
         return this._currentCards;
     }
-    randomOne() {
-        const randomIndex = Math.floor(Math.random() * 53);
+    getRandomOne() {
+        const randomIndex = Math.floor(Math.random() * this._currentCards.length);
         const { type, number } = this._currentCards[randomIndex];
-        if (type === undefined)
-            throw new Error();
-        const randomCard = this.getOne(type, number);
+        const randomCard = this.getSelectOne(type, number);
         return randomCard;
     }
-    getOne(type, number) {
+    getSelectOne(type, number) {
         const findedCard = this._currentCards.find((card) => {
             if (card.type !== type)
                 return false;
@@ -35,13 +33,11 @@ class Card {
         if (findedCard === undefined)
             throw new Error();
         const newCurrentCards = this._currentCards.filter((card) => {
-            if (card.type !== findedCard.type)
-                return true;
-            if (card.number !== number)
-                return true;
-            return false;
+            if (card.type === findedCard.type && card.number === findedCard.number)
+                return false;
+            return true;
         });
-        this._currentCards = [...newCurrentCards];
+        this._currentCards = newCurrentCards;
         return findedCard;
     }
 }
