@@ -18,25 +18,24 @@ yarn add --dev prettier eslint-config-prettier @trivago/prettier-plugin-sort-imp
 
 ```javascript
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
     node: true,
   },
-  extends: [
-    "plugin:@typescript-eslint/recommended",
-    "eslint:recommended",
-    "prettier", //最後にprettierでフォーマットする
-  ],
+  extends: ['standard-with-typescript', 'prettier'],
   overrides: [],
-  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
+    tsconfigRootDir: __dirname,
   },
-  plugins: ["@typescript-eslint"],
+  ignorePatterns: ['dist'],
   rules: {},
 };
+
 ```
 
 4. .prettierrc の設定
