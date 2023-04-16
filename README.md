@@ -28,6 +28,9 @@ root
 </pre>
 
 #### ブランチの運用規則  
-- 命名規則：yymmdd-practice
+- 命名規則：yymmdd-quest 230416_blackjack
 - 日毎にブランチを切る。
-- ブランチは削除しない。
+
+#### コミットの規則
+- 命名規則：bjg_xxxxx quest_blackjack
+
