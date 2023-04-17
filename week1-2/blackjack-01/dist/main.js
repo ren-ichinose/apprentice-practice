@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gameEndComputerPlayer = void 0;
+exports.addDeleteComputerPlayers = void 0;
 const card_1 = require("./classes/card/card");
 const gameMaster_1 = require("./classes/gameMaster/gameMaster");
 const dealer_1 = require("./classes/person/dealer");
@@ -12,12 +12,23 @@ const computerPlayers = (0, createComputerPlayer_1.createComputerPlayer)(3, crad
 const dealer = new dealer_1.Dealer(crads);
 const player = new player_1.Player(crads);
 const gameMaster = new gameMaster_1.GameMaster(dealer, player, computerPlayers);
-const gameEndComputerPlayer = (name) => {
-    computerPlayers.forEach((computerPlayer, index) => {
-        computerPlayer.name === name && computerPlayers.splice(index, 1);
-    });
+const deleteComputerPlayers = [];
+const addDeleteComputerPlayers = (name) => {
+    deleteComputerPlayers.push(name);
 };
-exports.gameEndComputerPlayer = gameEndComputerPlayer;
+exports.addDeleteComputerPlayers = addDeleteComputerPlayers;
+const gameEndComputerPlayer = () => {
+    const deleteComputerPlayerIndex = [];
+    deleteComputerPlayers.forEach((name) => {
+        computerPlayers.forEach((computerPlayer, index) => {
+            name === computerPlayer.name && deleteComputerPlayerIndex.push(index);
+        });
+    });
+    const newComputerPlayers = computerPlayers.filter((_, index) => !deleteComputerPlayerIndex.includes(index));
+    computerPlayers.splice(0);
+    computerPlayers.push(...newComputerPlayers);
+    deleteComputerPlayers.splice(0);
+};
 (0, gameStart_1.gameStart)();
 player.getRandomOne();
 player.getRandomOne();
@@ -25,11 +36,16 @@ computerPlayers.forEach((cpu) => {
     cpu.getRandomOne();
     cpu.getRandomOne();
 });
+deleteComputerPlayers.length !== 0 && gameEndComputerPlayer();
 dealer.getRandomOne();
 dealer.getRandomOneSilent();
 gameMaster
     .isNeedGetRandomOne()
     .then(() => {
+    computerPlayers.forEach((cpu) => {
+        cpu.getRandomrepeat();
+    });
+    deleteComputerPlayers.length !== 0 && gameEndComputerPlayer();
     console.log('ディーラーのターンを開始します。');
     dealer.displayCards();
     gameMaster.getRandomrepeat();

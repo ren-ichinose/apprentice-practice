@@ -1,4 +1,4 @@
-import { gameEndComputerPlayer } from '../../main';
+import { addDeleteComputerPlayers } from '../../main';
 import { calculateCardScore } from '../../utils/calculateCardScore';
 import type { Card } from '../card/card';
 import { Person } from './person';
@@ -24,7 +24,17 @@ export class ComputerPlayer extends Person {
     if (cardScore > 21) {
       console.log('得点が21を超えました。');
       console.log(`${this._name}は負けです。`);
-      gameEndComputerPlayer(this._name);
+      addDeleteComputerPlayers(this._name);
+    }
+  }
+
+  // CPUが17以上になるまでランダムに1枚のトランプを引く関数
+  getRandomrepeat(): void {
+    let cardScore = calculateCardScore(this._myCards);
+
+    while (cardScore < 17) {
+      this.getRandomOne();
+      cardScore = calculateCardScore(this._myCards);
     }
   }
 }

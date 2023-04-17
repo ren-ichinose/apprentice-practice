@@ -3,7 +3,6 @@ import { gameEnd } from '../../utils/gameEnd';
 import type { Card } from '../card/card';
 import type { CardTypes } from '../interfaces/interfaces';
 
-
 export class Person {
   /*
     _myCards: CardTypes[] 
@@ -48,7 +47,7 @@ export class Person {
   getRandomOne(): void {
     const { type, number } = this._card.getRandomOne();
     this._myCards.push({ type, number });
-    
+
     console.log(`${this._name}の引いたカードは${type}の${number}です。`);
 
     /*

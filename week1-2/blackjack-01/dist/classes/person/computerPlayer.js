@@ -17,7 +17,14 @@ class ComputerPlayer extends person_1.Person {
         if (cardScore > 21) {
             console.log('得点が21を超えました。');
             console.log(`${this._name}は負けです。`);
-            (0, main_1.gameEndComputerPlayer)(this._name);
+            (0, main_1.addDeleteComputerPlayers)(this._name);
+        }
+    }
+    getRandomrepeat() {
+        let cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
+        while (cardScore < 17) {
+            this.getRandomOne();
+            cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
         }
     }
 }
