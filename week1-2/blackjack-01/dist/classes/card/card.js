@@ -1,17 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Card = void 0;
+const cardsHandler_1 = require("../../utils/cardsHandler");
+const createCards_1 = require("../../utils/createCards");
 class Card {
-    constructor() {
-        const mapCards = [];
-        const types = ['スペード', 'ハート', 'ダイヤ', 'クラブ'];
-        types.forEach((type) => {
-            [...Array(13)].forEach((_, i) => {
-                const number = i + 1;
-                mapCards.push({ type, number });
-            });
-        });
-        this._currentCards = mapCards;
+    constructor(types, jokerNumber) {
+        const cards = (0, createCards_1.createCards)(types, jokerNumber);
+        this._currentCards = cards;
     }
     get currentCards() {
         return this._currentCards;
@@ -23,20 +18,8 @@ class Card {
         return randomCard;
     }
     getSelectOne(type, number) {
-        const findedCard = this._currentCards.find((card) => {
-            if (card.type !== type)
-                return false;
-            if (card.number !== number)
-                return false;
-            return card;
-        });
-        if (findedCard === undefined)
-            throw new Error();
-        const newCurrentCards = this._currentCards.filter((card) => {
-            if (card.type === findedCard.type && card.number === findedCard.number)
-                return false;
-            return true;
-        });
+        const findedCard = (0, cardsHandler_1.findCrad)(type, number, this._currentCards);
+        const newCurrentCards = (0, cardsHandler_1.deleteCard)(findedCard.type, findedCard.number, this._currentCards);
         this._currentCards = newCurrentCards;
         return findedCard;
     }

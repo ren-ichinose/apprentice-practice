@@ -2,20 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComputerPlayer = void 0;
 const main_1 = require("../../main");
+const burst_1 = require("../../utils/burst");
 const calculateCardScore_1 = require("../../utils/calculateCardScore");
 const person_1 = require("./person");
 class ComputerPlayer extends person_1.Person {
-    constructor(name, card) {
-        const role = 'player';
-        super(name, role, card);
-    }
-    getRandomOne() {
-        const { type, number } = this._card.getRandomOne();
-        this._myCards.push({ type, number });
-        console.log(`${this._name}の引いたカードは${type}の${number}です。`);
+    BurstCheck() {
         const cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
-        if (cardScore > 21) {
-            console.log('得点が21を超えました。');
+        const isBurstResult = (0, burst_1.isBurst)(cardScore);
+        if (isBurstResult) {
             console.log(`${this._name}は負けです。`);
             (0, main_1.addDeleteComputerPlayers)(this._name);
         }

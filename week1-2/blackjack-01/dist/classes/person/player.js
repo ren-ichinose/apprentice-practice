@@ -5,8 +5,7 @@ const person_1 = require("./person");
 class Player extends person_1.Person {
     constructor(card) {
         const name = 'あなた';
-        const role = 'player';
-        super(name, role, card);
+        super(name, card);
     }
 }
 exports.Player = Player;

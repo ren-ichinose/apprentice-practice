@@ -7,8 +7,11 @@ const dealer_1 = require("./classes/person/dealer");
 const player_1 = require("./classes/person/player");
 const createComputerPlayer_1 = require("./utils/createComputerPlayer");
 const gameStart_1 = require("./utils/gameStart");
-const crads = new card_1.Card();
-const computerPlayers = (0, createComputerPlayer_1.createComputerPlayer)(3, crads);
+const totalPlayers = 3;
+const CardTypes = ['スペード', 'ハート', 'ダイヤ', 'クラブ'];
+const jokerNumber = 0;
+const crads = new card_1.Card(CardTypes, jokerNumber);
+const computerPlayers = (0, createComputerPlayer_1.createComputerPlayer)(totalPlayers, crads);
 const dealer = new dealer_1.Dealer(crads);
 const player = new player_1.Player(crads);
 const gameMaster = new gameMaster_1.GameMaster(dealer, player, computerPlayers);
@@ -47,8 +50,8 @@ gameMaster
     });
     deleteComputerPlayers.length !== 0 && gameEndComputerPlayer();
     console.log('ディーラーのターンを開始します。');
-    dealer.displayCards();
-    gameMaster.getRandomrepeat();
+    dealer.displaySecondsCard();
+    dealer.getRandomrepeat();
     console.log('ディーラーのターンを終了します。');
     gameMaster.displayWinner();
 })

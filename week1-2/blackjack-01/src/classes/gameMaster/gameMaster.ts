@@ -36,22 +36,6 @@ export class GameMaster {
     }
   }
 
-  // ディーラーが17以上になるまでランダムに1枚のトランプを引く関数
-  getRandomrepeat(): void {
-    let cardScore = calculateCardScore(this._dealer.myCards);
-
-    // 2枚目の時点で21を超えている場合はゲームを終了する
-    if (cardScore > 21) {
-      console.log(`${this._player.name}の勝ちです。`);
-      gameEnd();
-    }
-
-    while (cardScore < 17) {
-      this._dealer.getRandomOne();
-      cardScore = calculateCardScore(this._dealer.myCards);
-    }
-  }
-
   // 勝者を発表する関数
   displayWinner(): void {
     // // CPUがいない場合は、displayWinnerShingle関数に処理を移行する

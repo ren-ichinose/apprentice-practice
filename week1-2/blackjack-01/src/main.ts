@@ -5,13 +5,16 @@ import { Player } from './classes/person/player';
 import { createComputerPlayer } from './utils/createComputerPlayer';
 import { gameStart } from './utils/gameStart';
 
-// Todo：最初の時点で21を超えていた場合に、負けとなるロジックがないため、修正する。
+
 // Todo：gameMasterクラスは、共通部分と条件に依存する内容が含まれているため、クラス設計を再度見直す。
-// Todo：gameMasterクラスのgetRandomrepeat()はディーラークラスに移すべき。
 
 // 参加者と進行役のインスタンスを生成
-const crads = new Card();
-const computerPlayers = createComputerPlayer(3, crads);
+const totalPlayers = 3;
+const CardTypes = ['スペード', 'ハート', 'ダイヤ', 'クラブ'];
+const jokerNumber = 0;
+
+const crads = new Card(CardTypes, jokerNumber);
+const computerPlayers = createComputerPlayer(totalPlayers, crads);
 const dealer = new Dealer(crads);
 const player = new Player(crads);
 const gameMaster = new GameMaster(dealer, player, computerPlayers);
@@ -36,7 +39,7 @@ const gameEndComputerPlayer = (): void => {
       name === computerPlayer.name && deleteComputerPlayerIndex.push(index);
     });
   });
-  
+
   const newComputerPlayers = computerPlayers.filter(
     (_, index) => !deleteComputerPlayerIndex.includes(index)
   );
@@ -74,8 +77,8 @@ gameMaster
     deleteComputerPlayers.length !== 0 && gameEndComputerPlayer();
 
     console.log('ディーラーのターンを開始します。');
-    dealer.displayCards(); // プレイヤー画面に表示
-    gameMaster.getRandomrepeat(); // カードを繰り返し取得する
+    dealer.displaySecondsCard(); // プレイヤー画面に表示
+    dealer.getRandomrepeat(); // カードを繰り返し取得する
     console.log('ディーラーのターンを終了します。');
     gameMaster.displayWinner(); // 勝敗を発表する
   })
