@@ -21,17 +21,6 @@ class GameMaster {
             isNeed = await (0, questionYesOrNo_1.questionYesOrNo)(questionMassage);
         }
     }
-    getRandomrepeat() {
-        let cardScore = (0, calculateCardScore_1.calculateCardScore)(this._dealer.myCards);
-        if (cardScore > 21) {
-            console.log(`${this._player.name}の勝ちです。`);
-            (0, gameEnd_1.gameEnd)();
-        }
-        while (cardScore < 17) {
-            this._dealer.getRandomOne();
-            cardScore = (0, calculateCardScore_1.calculateCardScore)(this._dealer.myCards);
-        }
-    }
     displayWinner() {
         const dealerCardScore = (0, calculateCardScore_1.calculateCardScore)(this._dealer.myCards);
         const playerCardScore = (0, calculateCardScore_1.calculateCardScore)(this._player.myCards);

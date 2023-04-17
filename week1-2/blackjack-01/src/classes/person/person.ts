@@ -1,29 +1,20 @@
+import { BurstCheckEnd } from '../../utils/burst';
 import { calculateCardScore } from '../../utils/calculateCardScore';
-import { gameEnd } from '../../utils/gameEnd';
 import type { Card } from '../card/card';
 import type { CardTypes } from '../interfaces/interfaces';
 
 
 export class Person {
   /*
-    _myCards: CardTypes[] 
-    数字と絵柄の組み合わせから構成されている手札の配列
-
-    _name: string,
-    名前
-
-    _role: 'player' | 'dealer'
-    プレイヤーかディーラーかの役割を表す
-
-    _card: Card
-    Cardクラスのインスタンス
+    _myCards: CardTypes[]       数字と絵柄の組み合わせから構成されている手札の配列
+    _name: string               名前
+    _role: 'player' | 'dealer'  プレイヤーかディーラーかの役割を表す
+    _card: Card                 Cardクラスのインスタンス
   */
-
   protected _myCards: CardTypes[];
 
   constructor(
     protected readonly _name: string,
-    protected readonly _role: 'player' | 'dealer',
     protected readonly _card: Card
   ) {
     this._myCards = [];
@@ -33,8 +24,8 @@ export class Person {
     return this._name;
   }
 
-  get role(): string {
-    return this._role;
+  get Cards(): Card {
+    return this._card;
   }
 
   get myCards(): CardTypes[] {
@@ -48,18 +39,17 @@ export class Person {
   getRandomOne(): void {
     const { type, number } = this._card.getRandomOne();
     this._myCards.push({ type, number });
-    
-    console.log(`${this._name}の引いたカードは${type}の${number}です。`);
 
-    /*
-      カードの得点を計算する。
-      21を超えた場合はゲームを終了させる関数を呼び出す。
-    */
+    console.log(`${this._name}の引いたカードは${type}の${number}です。`)
+    this.BurstCheck()
+  }
+
+  /*
+    カードの得点を計算する。
+    21を超えた場合はゲームを終了させる関数を呼び出す。
+  */
+  protected BurstCheck(): void {
     const cardScore = calculateCardScore(this._myCards);
-    if (cardScore > 21) {
-      console.log('得点が21を超えました。');
-      console.log(`${this._name}の負けです。`);
-      gameEnd();
-    }
+    BurstCheckEnd(this.name, cardScore);
   }
 }
