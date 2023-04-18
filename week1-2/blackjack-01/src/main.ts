@@ -1,5 +1,5 @@
 import { Card } from './classes/card/card';
-import { GameMaster } from './classes/gameMaster/gameMaster';
+import { GameAssist } from './classes/gameAssist/gameAssist';
 import { Dealer } from './classes/person/dealer';
 import { Player } from './classes/person/player';
 import { createComputerPlayer } from './utils/createComputerPlayer';
@@ -17,7 +17,7 @@ const crads = new Card(CardTypes, jokerNumber);
 const computerPlayers = createComputerPlayer(totalPlayers, crads);
 const dealer = new Dealer(crads);
 const player = new Player(crads);
-const gameMaster = new GameMaster(dealer, player, computerPlayers);
+const gameAssist = new GameAssist(dealer, player, computerPlayers);
 
 /*
   得点が17を超えた場合にCPUを削除する関数
@@ -67,7 +67,7 @@ deleteComputerPlayers.length !== 0 && gameEndComputerPlayer();
 dealer.getRandomOne();
 dealer.getRandomOneSilent();
 
-gameMaster
+player
   .isNeedGetRandomOne() // プレイヤーがカードを引くターン
   .then(() => {
     // CPUのターンを開始し、17以上になるまでカードを取得する
@@ -80,7 +80,7 @@ gameMaster
     dealer.displaySecondsCard(); // プレイヤー画面に表示
     dealer.getRandomrepeat(); // カードを繰り返し取得する
     console.log('ディーラーのターンを終了します。');
-    gameMaster.displayWinner(); // 勝敗を発表する
+    gameAssist.displayWinner(); // 勝敗を発表する
   })
   .catch((error) => {
     console.log(error.message); // エラー発生時の処理
