@@ -3,7 +3,6 @@ import { gameEnd } from './gameEnd';
 // 21を超えているかを確認して真偽値を返す関数
 export const isBurst = (cardScore: number): boolean => {
   if (cardScore > 21) {
-    console.log('得点が21を超えました。');
     return true;
   }
   return false;

@@ -4,7 +4,6 @@ exports.BurstCheckEnd = exports.isBurst = void 0;
 const gameEnd_1 = require("./gameEnd");
 const isBurst = (cardScore) => {
     if (cardScore > 21) {
-        console.log('得点が21を超えました。');
         return true;
     }
     return false;

@@ -11,11 +11,11 @@ const calculateCardScore = (cards) => {
     }, 0);
     if (aceCards.length === 0)
         return nonAceCardScore;
-    let CardScore = 0;
     if (nonAceCardScore < (12 - aceCards.length)) {
-        CardScore = nonAceCardScore + 11 + (aceCards.length - 1);
+        const CardScore = nonAceCardScore + 11 + (aceCards.length - 1);
+        return CardScore;
     }
-    CardScore = nonAceCardScore + aceCards.length;
+    const CardScore = nonAceCardScore + aceCards.length;
     return CardScore;
 };
 exports.calculateCardScore = calculateCardScore;
