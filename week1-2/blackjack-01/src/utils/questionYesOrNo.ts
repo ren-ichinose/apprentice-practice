@@ -20,3 +20,17 @@ export const questionYesOrNo = async (question: string): Promise<boolean> => {
     });
   });
 };
+
+export const questionNumber = async (question: string): Promise<number> => {
+  const lr = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  
+  return await new Promise<number>((resolve) => {
+    lr.question(question, (answer = '') => {
+      resolve(Number(answer));
+      lr.close();
+    });
+  });
+};

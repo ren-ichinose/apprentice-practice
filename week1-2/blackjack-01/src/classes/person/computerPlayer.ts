@@ -1,4 +1,3 @@
-import { addDeleteComputerPlayers } from '../../main';
 import { isBurst } from '../../utils/burst';
 import { calculateCardScore } from '../../utils/calculateCardScore';
 import { Person } from './person';
@@ -13,8 +12,8 @@ export class ComputerPlayer extends Person {
     const isBurstResult = isBurst(cardScore);
 
     if (isBurstResult) {
+      console.log('得点が21を超えました。');
       console.log(`${this._name}は負けです。`);
-      addDeleteComputerPlayers(this._name);
     }
   }
 

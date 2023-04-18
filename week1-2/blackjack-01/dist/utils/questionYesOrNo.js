@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.questionYesOrNo = void 0;
+exports.questionNumber = exports.questionYesOrNo = void 0;
 const readline = __importStar(require("readline"));
 const questionYesOrNo = async (question) => {
     const lr = readline.createInterface({
@@ -38,4 +38,17 @@ const questionYesOrNo = async (question) => {
     });
 };
 exports.questionYesOrNo = questionYesOrNo;
+const questionNumber = async (question) => {
+    const lr = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
+    return await new Promise((resolve) => {
+        lr.question(question, (answer = '') => {
+            resolve(Number(answer));
+            lr.close();
+        });
+    });
+};
+exports.questionNumber = questionNumber;
 //# sourceMappingURL=questionYesOrNo.js.map
