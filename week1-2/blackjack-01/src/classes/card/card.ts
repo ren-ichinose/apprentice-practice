@@ -1,5 +1,4 @@
 import { deleteCard, findCrad } from '../../utils/cardsHandler';
-import { createCards } from '../../utils/createCards';
 import type { CardTypes } from '../interfaces/interfaces';
 
 
@@ -12,12 +11,37 @@ export class Card {
 
   // 引数に応じた組み合わせのトランプを生成してセットする
   constructor(types: string[], jokerNumber: number) {
-    const cards = createCards(types, jokerNumber);
+    const cards = this.createCards(types, jokerNumber);
     this._currentCards = cards;
   }
 
   get currentCards(): CardTypes[] {
     return this._currentCards;
+  }
+
+  // 52枚のトランプを生成する関数
+  private createCards(types: string[], jokerNumber: number): CardTypes[] {
+    const mapCards: CardTypes[] = [];
+
+    types.forEach((type: string) => {
+      [...Array(13)].forEach((_, i) => {
+        const number = i + 1;
+        mapCards.push({ type, number });
+      });
+    });
+
+    const jokers = this.createJoker(jokerNumber);
+    const resultCards = [...mapCards, ...jokers];
+    return resultCards;
+  }
+
+  // 引数の値に応じて、ジョーカーを作成する
+  private createJoker(jokerNumber: number): CardTypes[] {
+    const jokers: CardTypes[] = [];
+    [...Array(jokerNumber)].forEach((_) => {
+      jokers.push({ type: 'joker', number: 0 });
+    });
+    return jokers;
   }
 
   // ランダムに1枚のトランプを返す関数
