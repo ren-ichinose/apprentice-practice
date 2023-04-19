@@ -24,25 +24,12 @@ class GameAssist {
         (0, gameEnd_1.gameEnd)();
     }
     createAllNameAndScore() {
-        const dealerCardScore = (0, calculateCardScore_1.calculateCardScore)(this._dealer.myCards);
-        const playerCardScore = (0, calculateCardScore_1.calculateCardScore)(this._player.myCards);
-        const computerPlayersScore = this._computerPlayers.map((computerPlayer) => {
-            return (0, calculateCardScore_1.calculateCardScore)(computerPlayer.myCards);
+        const participants = [this._dealer, this._player, ...this._computerPlayers];
+        const computerPlayersScore = participants.map(({ name, myCards }) => {
+            const score = (0, calculateCardScore_1.calculateCardScore)(myCards);
+            return { name, score };
         });
-        const dealerNameScore = { name: this._dealer.name, score: dealerCardScore };
-        const playerNameScore = { name: this._player.name, score: playerCardScore };
-        const computerPlayersNameScore = this._computerPlayers.map((computerPlayer, index) => {
-            return {
-                name: computerPlayer.name,
-                score: computerPlayersScore[index],
-            };
-        });
-        const allMember = [
-            dealerNameScore,
-            playerNameScore,
-            ...computerPlayersNameScore,
-        ];
-        return allMember;
+        return computerPlayersScore;
     }
 }
 exports.GameAssist = GameAssist;

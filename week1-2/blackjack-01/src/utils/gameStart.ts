@@ -6,7 +6,7 @@ export const gmaeStartAndQuetion = async (): Promise<number> => {
     console.log('ブラックジャックを開始します。');
 
     const totalComputerPlayer = await questionNumber(
-      'CPUを追加する場合は0〜4の整数を入力してください。'
+      'CPUを追加する場合は0〜3の整数を入力してください。'
     );
 
     if (totalComputerPlayer > 3) throw new Error();
