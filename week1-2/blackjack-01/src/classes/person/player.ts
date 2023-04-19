@@ -1,3 +1,4 @@
+import { BurstCheckEnd } from '../../utils/burst';
 import { calculateCardScore } from '../../utils/calculateCardScore';
 import { questionYesOrNo } from '../../utils/questionYesOrNo';
 import type { Card } from '../card/card';
@@ -24,5 +25,9 @@ export class Player extends Person {
       const questionMassage = `あなたの現在の得点は${cardScore}です。カードを引きますか？（y/n）`;
       isNeed = await questionYesOrNo(questionMassage);
     }
+  }
+
+  protected BurstCheck(cardScore: number): void {
+    BurstCheckEnd(this.name, cardScore);
   }
 }
