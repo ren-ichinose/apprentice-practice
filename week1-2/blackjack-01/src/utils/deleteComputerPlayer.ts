@@ -2,7 +2,7 @@ import type { ComputerPlayer } from '../classes/person/computerPlayer';
 import { isBurst } from './burst';
 import { calculateCardScore } from './calculateCardScore';
 
-// 得点が21を超えたCPUを削除する関数
+// 得点が21を超えたCPUを含んだ配列を返す関数
 export const deleteComputerPlayer = (
   computerPlayers: ComputerPlayer[]
 ): ComputerPlayer[] => {

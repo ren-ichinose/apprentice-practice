@@ -6,7 +6,6 @@ import type { ComputerPlayer } from '../person/computerPlayer';
 import type { Dealer } from '../person/dealer';
 import type { Player } from '../person/player';
 
-
 export class GameAssist {
   /*
     protected readonly dealer: Dealer,
@@ -44,32 +43,12 @@ export class GameAssist {
 
   // 参加者全員の得点を取得して、名前と得点を含むオブジェクトの配列を返す関数
   createAllNameAndScore(): AllNameAndScore[] {
-    // 参加者の得点を取得する
-    const dealerCardScore = calculateCardScore(this._dealer.myCards);
-    const playerCardScore = calculateCardScore(this._player.myCards);
-    const computerPlayersScore = this._computerPlayers.map((computerPlayer) => {
-      return calculateCardScore(computerPlayer.myCards);
+    const participants = [this._dealer, this._player, ...this._computerPlayers];
+    const computerPlayersScore = participants.map(({ name, myCards }) => {
+      const score = calculateCardScore(myCards);
+      return { name, score };
     });
 
-    // 参加者の名前と得点を含むオブジェクトをつくる
-    const dealerNameScore = { name: this._dealer.name, score: dealerCardScore };
-    const playerNameScore = { name: this._player.name, score: playerCardScore };
-    const computerPlayersNameScore = this._computerPlayers.map(
-      (computerPlayer, index) => {
-        return {
-          name: computerPlayer.name,
-          score: computerPlayersScore[index],
-        };
-      }
-    );
-
-    // 参加者全員の名前と得点のオブジェクトを格納した配列をつくる
-    const allMember: AllNameAndScore[] = [
-      dealerNameScore,
-      playerNameScore,
-      ...computerPlayersNameScore,
-    ];
-
-    return allMember;
+    return computerPlayersScore;
   }
 }

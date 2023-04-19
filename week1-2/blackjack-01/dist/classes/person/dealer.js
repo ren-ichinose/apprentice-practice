@@ -11,22 +11,18 @@ class Dealer extends person_1.Person {
         super(name, card);
     }
     getRandomOneSilent() {
-        const { type, number } = this._card.getRandomOne();
-        this._myCards.push({ type, number });
+        this.drawCard();
         console.log('ディーラーの引いた2枚目のカードはわかりません。');
     }
     getRandomrepeat() {
         this.BurstCheck();
-        let cardScore = (0, calculateCardScore_1.calculateCardScore)(this.myCards);
-        while (cardScore < 17) {
-            this.getRandomOne();
-            cardScore = (0, calculateCardScore_1.calculateCardScore)(this.myCards);
-        }
+        super.getRandomrepeat();
     }
     BurstCheck() {
         const cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
         const isBurstResult = (0, burst_1.isBurst)(cardScore);
         if (isBurstResult) {
+            console.log('得点が21を超えました。');
             console.log('みなさんの勝ちです。');
             (0, gameEnd_1.gameEnd)();
         }

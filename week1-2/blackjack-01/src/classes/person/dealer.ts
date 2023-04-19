@@ -4,6 +4,7 @@ import { gameEnd } from '../../utils/gameEnd';
 import type { Card } from '../card/card';
 import { Person } from './person';
 
+
 export class Dealer extends Person {
   constructor(card: Card) {
     const name = 'ディーラー';
@@ -15,22 +16,14 @@ export class Dealer extends Person {
     取得したトランプは表示しない
   */
   getRandomOneSilent(): void {
-    const { type, number } = this._card.getRandomOne();
-    this._myCards.push({ type, number });
+    this.drawCard();
     console.log('ディーラーの引いた2枚目のカードはわかりません。');
   }
 
   // ディーラーが17以上になるまでランダムに1枚のトランプを引く関数
   getRandomrepeat(): void {
-
     this.BurstCheck();
-
-    let cardScore = calculateCardScore(this.myCards);
-
-    while (cardScore < 17) {
-      this.getRandomOne();
-      cardScore = calculateCardScore(this.myCards);
-    }
+    super.getRandomrepeat();
   }
 
   /*
@@ -41,6 +34,7 @@ export class Dealer extends Person {
     const cardScore = calculateCardScore(this._myCards);
     const isBurstResult = isBurst(cardScore);
     if (isBurstResult) {
+      console.log('得点が21を超えました。');
       console.log('みなさんの勝ちです。');
       gameEnd();
     }
