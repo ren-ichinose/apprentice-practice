@@ -43,9 +43,15 @@ const questionNumber = async (question) => {
         input: process.stdin,
         output: process.stdout,
     });
+    const toHalfWidthNumber = (inputString) => {
+        return inputString.replace(/[０-９]/g, (match) => {
+            console.log('match', match);
+            return String.fromCharCode(match.charCodeAt(0) - 0xfee0);
+        });
+    };
     return await new Promise((resolve) => {
         lr.question(question, (answer = '') => {
-            resolve(Number(answer));
+            resolve(Number(toHalfWidthNumber(answer)));
             lr.close();
         });
     });

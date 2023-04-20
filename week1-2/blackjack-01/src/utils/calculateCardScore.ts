@@ -2,8 +2,8 @@ import type { CardTypes } from '../classes/interfaces/interfaces';
 
 /*
   カードの得点を計算する関数(ノーマル)
-export const calculateCardScore = (cards: CardTypes[]): number => {
-  const result = cards.reduce((sum, card) => {
+export const calculateCardScore = (handCards: CardTypes[]): number => {
+  const result = handCards.reduce((sum, card) => {
     return sum + card.number;
   }, 0);
   return result;
@@ -11,7 +11,7 @@ export const calculateCardScore = (cards: CardTypes[]): number => {
 */
 
 // カードの得点を計算する関数(トランプの数字がAの場合、1もしくは11として計算する。)
-export const calculateCardScore = (cards: CardTypes[]): number => {
+export const calculateCardScore = (handCards: CardTypes[]): number => {
   // トランプのAの配列を格納する変数
   const aceCards: CardTypes[] = [];
 
@@ -19,9 +19,9 @@ export const calculateCardScore = (cards: CardTypes[]): number => {
     Aを除いた数字のスコアを計算
     AはaceCardsに格納する。
   */
-  const nonAceCardScore = cards.reduce((sum, card) => {
-    if (card.number !== 1) return sum + card.number;
-    aceCards.push(card);
+  const nonAceCardScore = handCards.reduce((sum, handCard) => {
+    if (handCard.number !== 1) return sum + handCard.number;
+    aceCards.push(handCards);
     return sum;
   }, 0);
 

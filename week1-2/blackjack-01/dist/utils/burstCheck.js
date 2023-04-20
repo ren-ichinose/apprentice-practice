@@ -17,4 +17,4 @@ const BurstCheckEnd = (name, cardScore) => {
     }
 };
 exports.BurstCheckEnd = BurstCheckEnd;
-//# sourceMappingURL=burst.js.map
+//# sourceMappingURL=burstCheck.js.map

@@ -12,10 +12,10 @@ export const questionYesOrNo = async (question: string): Promise<boolean> => {
     input: process.stdin,
     output: process.stdout,
   });
-  
+
   return await new Promise<boolean>((resolve) => {
     lr.question(question, (answer) => {
-      resolve(answer === 'y' );
+      resolve(answer === 'y');
       lr.close();
     });
   });
@@ -26,10 +26,24 @@ export const questionNumber = async (question: string): Promise<number> => {
     input: process.stdin,
     output: process.stdout,
   });
-  
+
+  // return await new Promise<number>((resolve) => {
+  //   lr.question(question, (answer = '') => {
+  //     resolve(Number(answer));
+  //     lr.close();
+  //   });
+  // });Number(answer)
+
+  const toHalfWidthNumber = (inputString: string): string => {
+    return inputString.replace(/[０-９]/g, (match) => {
+      console.log('match', match);
+      return String.fromCharCode(match.charCodeAt(0) - 0xfee0);
+    });
+  };
+
   return await new Promise<number>((resolve) => {
     lr.question(question, (answer = '') => {
-      resolve(Number(answer));
+      resolve(Number(toHalfWidthNumber(answer)));
       lr.close();
     });
   });

@@ -1,38 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Person = void 0;
-const calculateCardScore_1 = require("../../utils/calculateCardScore");
 class Person {
-    constructor(_name, _card, _myCards = []) {
+    constructor(_name, _deckOfCards, _handCard) {
         this._name = _name;
-        this._card = _card;
-        this._myCards = _myCards;
+        this._deckOfCards = _deckOfCards;
+        this._handCard = _handCard;
     }
     get name() {
         return this._name;
     }
-    get Cards() {
-        return this._card;
+    get deckOfCards() {
+        return this._deckOfCards;
     }
-    get myCards() {
-        return this._myCards;
+    get handCards() {
+        return this._handCard;
     }
     drawCard() {
-        const card = this._card.getRandomOne();
-        this._myCards.push(card);
+        const card = this._deckOfCards.drawCardRandomOne();
+        this._handCard.handCards = [...this._handCard.handCards, card];
         return card;
     }
-    getRandomOne() {
+    drawCardRandomOne() {
         const { type, number } = this.drawCard();
         console.log(`${this._name}の引いたカードは${type}の${number}です。`);
-        const cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
+        const cardScore = this._handCard.calculateCardScore();
         this.BurstCheck(cardScore);
     }
-    getRandomrepeat() {
-        let cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
+    drawCardRandomrepeat() {
+        let cardScore = this._handCard.calculateCardScore();
         while (cardScore < 17) {
-            this.getRandomOne();
-            cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
+            this.drawCardRandomOne();
+            cardScore = this._handCard.calculateCardScore();
         }
     }
 }

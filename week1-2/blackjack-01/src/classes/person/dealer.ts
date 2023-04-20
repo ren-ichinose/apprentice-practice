@@ -1,29 +1,36 @@
-import { isBurst } from '../../utils/burst';
-import { calculateCardScore } from '../../utils/calculateCardScore';
+import { isBurst } from '../../utils/burstCheck';
 import { gameEnd } from '../../utils/gameEnd';
 import type { Card } from '../card/card';
+import type { HandCard } from '../handCard/handCard';
 import { Person } from './person';
 
-
 export class Dealer extends Person {
-  constructor(card: Card) {
+  constructor(card: Card, handCard: HandCard) {
     const name = 'ディーラー';
-    super(name, card);
+    super(name, card, handCard);
+  }
+
+  // ディーラーの2ターン目の処理
+  secondTurn(): void {
+    console.log('ディーラーのターンを開始します。');
+    this.displaySecondsCard(); // 2枚目のカードを画面に表示
+    this.drawCardRandomrepeat(); // カードを繰り返し取得する
+    console.log('ディーラーのターンを終了します。');
   }
 
   /*
     トランプをランダムに取得して、手持ちのトランプに加える
     取得したトランプは表示しない
   */
-  getRandomOneSilent(): void {
-    this.drawCard();
+  drawCardRandomOneSilent(): void {
+    super.drawCard();
     console.log('ディーラーの引いた2枚目のカードはわかりません。');
   }
 
   // ディーラーが17以上になるまでランダムに1枚のトランプを引く関数
-  getRandomrepeat(): void {
+  drawCardRandomrepeat(): void {
     this.BurstCheck();
-    super.getRandomrepeat();
+    super.drawCardRandomrepeat();
   }
 
   /*
@@ -31,7 +38,7 @@ export class Dealer extends Person {
     21を超えた場合はゲームを終了させる関数を呼び出す。
   */
   protected BurstCheck(): void {
-    const cardScore = calculateCardScore(this._myCards);
+    const cardScore = this._handCard.calculateCardScore();
     const isBurstResult = isBurst(cardScore);
     if (isBurstResult) {
       console.log('得点が21を超えました。');
@@ -42,7 +49,7 @@ export class Dealer extends Person {
 
   // 2枚目に取得したトランプを表示する
   displaySecondsCard(): void {
-    const { type, number } = this.myCards[1];
+    const { type, number } = this._handCard.handCards[1];
     console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
   }
 }

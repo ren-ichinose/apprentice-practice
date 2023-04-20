@@ -1,4 +1,3 @@
-import { calculateCardScore } from '../../utils/calculateCardScore';
 import { gameEnd } from '../../utils/gameEnd';
 import { getWinnerScore } from '../../utils/getWinnerScore';
 import type { AllNameAndScore } from '../interfaces/interfaces';
@@ -44,8 +43,8 @@ export class GameAssist {
   // 参加者全員の得点を取得して、名前と得点を含むオブジェクトの配列を返す関数
   createAllNameAndScore(): AllNameAndScore[] {
     const participants = [this._dealer, this._player, ...this._computerPlayers];
-    const computerPlayersScore = participants.map(({ name, myCards }) => {
-      const score = calculateCardScore(myCards);
+    const computerPlayersScore = participants.map(({ name, handCards }) => {
+      const score = handCards.calculateCardScore();
       return { name, score };
     });
 
