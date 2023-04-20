@@ -1,4 +1,4 @@
-import { isBurst } from '../../utils/burst';
+import { isBurst } from '../../utils/burstCheck';
 import { Person } from './person';
 
 export class ComputerPlayer extends Person {
@@ -6,7 +6,7 @@ export class ComputerPlayer extends Person {
     カードの得点を計算する。
     21を超えた場合はCPUのみゲームを終了させる関数を呼び出す。
   */
-  protected BurstCheck(cardScore:number): void {
+  protected BurstCheck(cardScore: number): void {
     const isBurstResult = isBurst(cardScore);
 
     if (isBurstResult) {
