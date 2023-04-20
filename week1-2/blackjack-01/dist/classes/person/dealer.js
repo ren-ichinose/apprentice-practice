@@ -1,26 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dealer = void 0;
-const burst_1 = require("../../utils/burst");
-const calculateCardScore_1 = require("../../utils/calculateCardScore");
+const burstCheck_1 = require("../../utils/burstCheck");
 const gameEnd_1 = require("../../utils/gameEnd");
 const person_1 = require("./person");
 class Dealer extends person_1.Person {
-    constructor(card) {
+    constructor(card, handCard) {
         const name = 'ディーラー';
-        super(name, card);
+        super(name, card, handCard);
     }
-    getRandomOneSilent() {
-        this.drawCard();
+    drawCardRandomOneSilent() {
+        super.drawCard();
         console.log('ディーラーの引いた2枚目のカードはわかりません。');
     }
-    getRandomrepeat() {
+    drawCardRandomrepeat() {
         this.BurstCheck();
-        super.getRandomrepeat();
+        super.drawCardRandomrepeat();
     }
     BurstCheck() {
-        const cardScore = (0, calculateCardScore_1.calculateCardScore)(this._myCards);
-        const isBurstResult = (0, burst_1.isBurst)(cardScore);
+        const cardScore = this._handCard.calculateCardScore();
+        const isBurstResult = (0, burstCheck_1.isBurst)(cardScore);
         if (isBurstResult) {
             console.log('得点が21を超えました。');
             console.log('みなさんの勝ちです。');
@@ -28,7 +27,7 @@ class Dealer extends person_1.Person {
         }
     }
     displaySecondsCard() {
-        const { type, number } = this.myCards[1];
+        const { type, number } = this._handCard.handCards[1];
         console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
     }
 }

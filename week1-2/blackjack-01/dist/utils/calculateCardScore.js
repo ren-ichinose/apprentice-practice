@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculateCardScore = void 0;
-const calculateCardScore = (cards) => {
+const calculateCardScore = (handCards) => {
     const aceCards = [];
-    const nonAceCardScore = cards.reduce((sum, card) => {
-        if (card.number !== 1)
-            return sum + card.number;
-        aceCards.push(card);
+    const nonAceCardScore = handCards.reduce((sum, handCard) => {
+        if (handCard.number !== 1)
+            return sum + handCard.number;
+        aceCards.push(handCards);
         return sum;
     }, 0);
     if (aceCards.length === 0)

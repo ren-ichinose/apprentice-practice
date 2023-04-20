@@ -1,45 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Card = void 0;
-const cardsHandler_1 = require("../../utils/cardsHandler");
 class Card {
     constructor(types, jokerNumber) {
         const cards = this.createCards(types, jokerNumber);
-        this._currentCards = cards;
+        this._currentDeckOfCards = cards;
     }
-    get currentCards() {
-        return this._currentCards;
+    get currentDeckOfCards() {
+        return this._currentDeckOfCards;
     }
     createCards(types, jokerNumber) {
-        const mapCards = [];
+        const deckOfCardsWithoutJoker = [];
         types.forEach((type) => {
             [...Array(13)].forEach((_, i) => {
                 const number = i + 1;
-                mapCards.push({ type, number });
+                deckOfCardsWithoutJoker.push({ type, number });
             });
         });
-        const jokers = this.createJoker(jokerNumber);
-        const resultCards = [...mapCards, ...jokers];
-        return resultCards;
+        const jokers = this.createJokers(jokerNumber);
+        const deckOfCards = [...deckOfCardsWithoutJoker, ...jokers];
+        return deckOfCards;
     }
-    createJoker(jokerNumber) {
+    createJokers(jokerNumber) {
         const jokers = [];
         [...Array(jokerNumber)].forEach((_) => {
             jokers.push({ type: 'joker', number: 0 });
         });
         return jokers;
     }
-    getRandomOne() {
-        const randomIndex = Math.floor(Math.random() * this._currentCards.length);
-        const { type, number } = this._currentCards[randomIndex];
-        const randomCard = this.getSelectOne(type, number);
-        return randomCard;
+    drawCardRandomOne() {
+        const randomIndex = Math.floor(Math.random() * this._currentDeckOfCards.length);
+        const drawnCard = this._currentDeckOfCards[randomIndex];
+        this.deleteCards(drawnCard);
+        return drawnCard;
     }
-    getSelectOne(type, number) {
-        const findedCard = (0, cardsHandler_1.findCrad)(type, number, this._currentCards);
-        const newCurrentCards = (0, cardsHandler_1.deleteCard)(findedCard.type, findedCard.number, this._currentCards);
-        this._currentCards = newCurrentCards;
-        return findedCard;
+    deleteCards({ type, number }) {
+        const newCurrentDeckOfCards = this.currentDeckOfCards.filter((currentCard) => {
+            if (currentCard.type === type && currentCard.number === number)
+                return false;
+            return true;
+        });
+        this._currentDeckOfCards = newCurrentDeckOfCards;
     }
 }
 exports.Card = Card;

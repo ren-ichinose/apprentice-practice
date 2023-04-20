@@ -1,18 +1,18 @@
 import { BurstCheckEnd } from '../../utils/burstCheck';
-import { calculateCardScore } from '../../utils/calculateCardScore';
 import { questionYesOrNo } from '../../utils/questionYesOrNo';
 import type { Card } from '../card/card';
+import type { HandCard } from '../handCard/handCard';
 import { Person } from './person';
 
 export class Player extends Person {
-  constructor(card: Card) {
+  constructor(card: Card, handCard: HandCard) {
     const name = 'あなた';
-    super(name, card);
+    super(name, card, handCard);
   }
 
   async isNeedDrowCardRandomOne(): Promise<void> {
     // カードのスコアを取得 > ユーザーにトランプを引くか尋ねる > 入力内容を取得する。
-    const cardScore = calculateCardScore(this.handCards);
+    const cardScore = this._handCard.calculateCardScore();
     let isNeed = await questionYesOrNo(
       `あなたの現在の得点は${cardScore}です。カードを引きますか？（y/n）`
     );
@@ -20,7 +20,7 @@ export class Player extends Person {
     // 現在の得点が21点以下で、かつyが押下された場合はカードを取得する
     while (isNeed) {
       this.drawCardRandomOne();
-      const cardScore = calculateCardScore(this.handCards);
+      const cardScore = this._handCard.calculateCardScore();
       const questionMassage = `あなたの現在の得点は${cardScore}です。カードを引きますか？（y/n）`;
       isNeed = await questionYesOrNo(questionMassage);
     }

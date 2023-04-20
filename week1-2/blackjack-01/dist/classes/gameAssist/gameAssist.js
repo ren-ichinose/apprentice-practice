@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GameAssist = void 0;
-const calculateCardScore_1 = require("../../utils/calculateCardScore");
 const gameEnd_1 = require("../../utils/gameEnd");
 const getWinnerScore_1 = require("../../utils/getWinnerScore");
 class GameAssist {
@@ -25,8 +24,8 @@ class GameAssist {
     }
     createAllNameAndScore() {
         const participants = [this._dealer, this._player, ...this._computerPlayers];
-        const computerPlayersScore = participants.map(({ name, myCards }) => {
-            const score = (0, calculateCardScore_1.calculateCardScore)(myCards);
+        const computerPlayersScore = participants.map(({ name, handCards }) => {
+            const score = handCards.calculateCardScore();
             return { name, score };
         });
         return computerPlayersScore;

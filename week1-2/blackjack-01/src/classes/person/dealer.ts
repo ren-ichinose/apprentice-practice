@@ -1,13 +1,13 @@
 import { isBurst } from '../../utils/burstCheck';
-import { calculateCardScore } from '../../utils/calculateCardScore';
 import { gameEnd } from '../../utils/gameEnd';
 import type { Card } from '../card/card';
+import type { HandCard } from '../handCard/handCard';
 import { Person } from './person';
 
 export class Dealer extends Person {
-  constructor(card: Card) {
+  constructor(card: Card, handCard: HandCard) {
     const name = 'ディーラー';
-    super(name, card);
+    super(name, card, handCard);
   }
 
   /*
@@ -30,7 +30,7 @@ export class Dealer extends Person {
     21を超えた場合はゲームを終了させる関数を呼び出す。
   */
   protected BurstCheck(): void {
-    const cardScore = calculateCardScore(this.handCards);
+    const cardScore = this._handCard.calculateCardScore();
     const isBurstResult = isBurst(cardScore);
     if (isBurstResult) {
       console.log('得点が21を超えました。');
@@ -41,7 +41,7 @@ export class Dealer extends Person {
 
   // 2枚目に取得したトランプを表示する
   displaySecondsCard(): void {
-    const { type, number } = this.handCards[1];
+    const { type, number } = this._handCard.handCards[1];
     console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
   }
 }

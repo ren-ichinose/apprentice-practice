@@ -1,4 +1,5 @@
 import type { Card } from '../classes/card/card';
+import { HandCard } from '../classes/handCard/handCard';
 import { ComputerPlayer } from '../classes/person/computerPlayer';
 
 export const createComputerPlayer = (
@@ -14,7 +15,13 @@ export const createComputerPlayer = (
 
   // CPUのインスタンスの作成
   while (count < number) {
-    const computerPlayer = new ComputerPlayer(`CPU${count + 1}`, card);
+    // 手札のインスタンスの生成
+    const handCard = new HandCard();
+    const computerPlayer = new ComputerPlayer(
+      `CPU${count + 1}`,
+      card,
+      handCard
+    );
     computerPlayers.push(computerPlayer);
     count++;
   }

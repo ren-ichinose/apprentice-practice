@@ -1,4 +1,3 @@
-import { calculateCardScore } from '../../utils/calculateCardScore';
 import { gameEnd } from '../../utils/gameEnd';
 import { getWinnerScore } from '../../utils/getWinnerScore';
 import type { AllNameAndScore } from '../interfaces/interfaces';
@@ -45,7 +44,7 @@ export class GameAssist {
   createAllNameAndScore(): AllNameAndScore[] {
     const participants = [this._dealer, this._player, ...this._computerPlayers];
     const computerPlayersScore = participants.map(({ name, handCards }) => {
-      const score = calculateCardScore(handCards);
+      const score = handCards.calculateCardScore();
       return { name, score };
     });
 
