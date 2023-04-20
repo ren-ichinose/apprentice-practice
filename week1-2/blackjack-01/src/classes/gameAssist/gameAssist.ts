@@ -44,8 +44,8 @@ export class GameAssist {
   // 参加者全員の得点を取得して、名前と得点を含むオブジェクトの配列を返す関数
   createAllNameAndScore(): AllNameAndScore[] {
     const participants = [this._dealer, this._player, ...this._computerPlayers];
-    const computerPlayersScore = participants.map(({ name, myCards }) => {
-      const score = calculateCardScore(myCards);
+    const computerPlayersScore = participants.map(({ name, handCards }) => {
+      const score = calculateCardScore(handCards);
       return { name, score };
     });
 
