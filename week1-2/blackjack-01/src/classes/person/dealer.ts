@@ -10,6 +10,14 @@ export class Dealer extends Person {
     super(name, card, handCard);
   }
 
+  // ディーラーの2ターン目の処理
+  secondTurn(): void {
+    console.log('ディーラーのターンを開始します。');
+    this.displaySecondsCard(); // 2枚目のカードを画面に表示
+    this.drawCardRandomrepeat(); // カードを繰り返し取得する
+    console.log('ディーラーのターンを終了します。');
+  }
+
   /*
     トランプをランダムに取得して、手持ちのトランプに加える
     取得したトランプは表示しない

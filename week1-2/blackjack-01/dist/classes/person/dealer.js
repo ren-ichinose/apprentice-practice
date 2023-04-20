@@ -9,6 +9,12 @@ class Dealer extends person_1.Person {
         const name = 'ディーラー';
         super(name, card, handCard);
     }
+    secondTurn() {
+        console.log('ディーラーのターンを開始します。');
+        this.displaySecondsCard();
+        this.drawCardRandomrepeat();
+        console.log('ディーラーのターンを終了します。');
+    }
     drawCardRandomOneSilent() {
         super.drawCard();
         console.log('ディーラーの引いた2枚目のカードはわかりません。');

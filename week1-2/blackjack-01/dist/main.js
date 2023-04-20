@@ -36,10 +36,7 @@ const blackJackGame = async () => {
         cpu.drawCardRandomrepeat();
     });
     createNewComputerPlayers(computerPlayers);
-    console.log('ディーラーのターンを開始します。');
-    dealer.displaySecondsCard();
-    dealer.drawCardRandomrepeat();
-    console.log('ディーラーのターンを終了します。');
+    dealer.secondTurn();
     gameAssist.displayWinner();
 };
 blackJackGame().catch(() => {

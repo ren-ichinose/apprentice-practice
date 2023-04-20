@@ -61,10 +61,8 @@ const blackJackGame = async (): Promise<void> => {
   // 得点が21を超えたCPUを取り除き、新たな配列を生成する
   createNewComputerPlayers(computerPlayers);
 
-  console.log('ディーラーのターンを開始します。');
-  dealer.displaySecondsCard(); // 2枚目のカードを画面に表示
-  dealer.drawCardRandomrepeat(); // カードを繰り返し取得する
-  console.log('ディーラーのターンを終了します。');
+  // ディーラーのターン 
+  dealer.secondTurn()
 
   // 勝敗を発表する
   gameAssist.displayWinner();
