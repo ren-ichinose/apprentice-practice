@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Person = void 0;
+const convertCard_1 = require("../../utils/convertCard");
 class Person {
     constructor(_name, _deckOfCards, _handCard) {
         this._name = _name;
@@ -23,7 +24,7 @@ class Person {
     }
     drawCardRandomOne() {
         const { type, number } = this.drawCard();
-        console.log(`${this._name}の引いたカードは${type}の${number}です。`);
+        console.log(`${this._name}の引いたカードは${type}の${(0, convertCard_1.convertCardNumber)(number)}です。`);
         const cardScore = this._handCard.calculateCardScore();
         this.BurstCheck(cardScore);
     }

@@ -1,3 +1,4 @@
+import { convertCardNumber } from '../../utils/convertCard';
 import type { Card } from '../card/card';
 import type { HandCard } from '../handCard/handCard';
 import type { CardTypes } from '../interfaces/interfaces';
@@ -39,7 +40,9 @@ export abstract class Person {
   */
   drawCardRandomOne(): void {
     const { type, number } = this.drawCard();
-    console.log(`${this._name}の引いたカードは${type}の${number}です。`);
+    console.log(
+      `${this._name}の引いたカードは${type}の${convertCardNumber(number)}です。`
+    );
     const cardScore = this._handCard.calculateCardScore();
 
     this.BurstCheck(cardScore);
