@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dealer = void 0;
 const burstCheck_1 = require("../../utils/burstCheck");
+const convertCard_1 = require("../../utils/convertCard");
 const gameEnd_1 = require("../../utils/gameEnd");
 const person_1 = require("./person");
 class Dealer extends person_1.Person {
@@ -34,7 +35,7 @@ class Dealer extends person_1.Person {
     }
     displaySecondsCard() {
         const { type, number } = this._handCard.handCards[1];
-        console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
+        console.log(`ディーラーの引いた2枚目のカードは${type}の${(0, convertCard_1.convertCardNumber)(number)}でした。`);
     }
 }
 exports.Dealer = Dealer;

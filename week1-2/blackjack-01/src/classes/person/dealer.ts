@@ -1,4 +1,5 @@
 import { isBurst } from '../../utils/burstCheck';
+import { convertCardNumber } from '../../utils/convertCard';
 import { gameEnd } from '../../utils/gameEnd';
 import type { Card } from '../card/card';
 import type { HandCard } from '../handCard/handCard';
@@ -50,6 +51,10 @@ export class Dealer extends Person {
   // 2枚目に取得したトランプを表示する
   displaySecondsCard(): void {
     const { type, number } = this._handCard.handCards[1];
-    console.log(`ディーラーの引いた2枚目のカードは${type}の${number}でした。`);
+    console.log(
+      `ディーラーの引いた2枚目のカードは${type}の${convertCardNumber(
+        number
+      )}でした。`
+    );
   }
 }
