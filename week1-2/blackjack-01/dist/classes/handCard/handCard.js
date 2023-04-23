@@ -15,6 +15,8 @@ class HandCard {
     calculateCardScore() {
         const aceCards = [];
         const cardScoreWithoutAce = this.handCards.reduce((sum, handCard) => {
+            if (handCard.number >= 10)
+                return sum + 10;
             if (handCard.number !== 1)
                 return sum + handCard.number;
             aceCards.push(handCard);
