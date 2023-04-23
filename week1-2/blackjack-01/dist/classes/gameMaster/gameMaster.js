@@ -4,19 +4,19 @@ exports.GameMaster = void 0;
 const createComputerPlayer_1 = require("../../utils/createComputerPlayer");
 const deleteComputerPlayer_1 = require("../../utils/deleteComputerPlayer");
 const gameEnd_1 = require("../../utils/gameEnd");
+const gameStart_1 = require("../../utils/gameStart");
 const getWinnerScore_1 = require("../../utils/getWinnerScore");
 const card_1 = require("../card/card");
 const handCard_1 = require("../handCard/handCard");
 const dealer_1 = require("../person/dealer");
 const player_1 = require("../person/player");
 class GameMaster {
-    constructor(totalPlayers) {
+    constructor() {
         const CardTypes = ['スペード', 'ハート', 'ダイヤ', 'クラブ'];
         const jokerNumber = 0;
         const deckOfCards = new card_1.Card(CardTypes, jokerNumber);
         this._dealer = new dealer_1.Dealer(deckOfCards, new handCard_1.HandCard());
         this._player = new player_1.Player(deckOfCards, new handCard_1.HandCard());
-        this._computerPlayers = (0, createComputerPlayer_1.createComputerPlayer)(totalPlayers, deckOfCards);
     }
     get dealer() {
         return this._dealer;
@@ -28,6 +28,7 @@ class GameMaster {
         return this._computerPlayers;
     }
     async gameStart() {
+        await this.initializeComputerPlayer(this.player.deckOfCards).catch(() => { });
         [this.player, ...this.computerPlayers].forEach((participant) => {
             participant.drawCardRandomOne();
             participant.drawCardRandomOne();
@@ -48,6 +49,10 @@ class GameMaster {
         this.computerPlayers.length = 0;
         this.computerPlayers.push(...newComputerPlayers);
     }
+    async initializeComputerPlayer(deckOfCards) {
+        const totalPlayers = await (0, gameStart_1.gmaeStartAndQuetion)();
+        this._computerPlayers = (0, createComputerPlayer_1.createComputerPlayer)(totalPlayers, deckOfCards);
+    }
     displayWinner() {
         const allNameAndScore = this.createAllNameAndScore();
         allNameAndScore.forEach(({ name, score }) => {
@@ -62,7 +67,7 @@ class GameMaster {
         (0, gameEnd_1.gameEnd)();
     }
     createAllNameAndScore() {
-        const participants = [this._dealer, this._player, ...this._computerPlayers];
+        const participants = [this._dealer, this._player, ...this.computerPlayers];
         const computerPlayersScore = participants.map(({ name, handCards }) => {
             const score = handCards.calculateCardScore();
             return { name, score };

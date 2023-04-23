@@ -1,6 +1,7 @@
 import { createComputerPlayer } from '../../utils/createComputerPlayer';
 import { deleteComputerPlayer } from '../../utils/deleteComputerPlayer';
 import { gameEnd } from '../../utils/gameEnd';
+import { gmaeStartAndQuetion } from '../../utils/gameStart';
 import { getWinnerScore } from '../../utils/getWinnerScore';
 import { Card } from '../card/card';
 import { HandCard } from '../handCard/handCard';
@@ -9,12 +10,23 @@ import type { ComputerPlayer } from '../person/computerPlayer';
 import { Dealer } from '../person/dealer';
 import { Player } from '../person/player';
 
+
 export class GameMaster {
+  /*
+    課題：_computerPlayersがundefinedも許容している。
+    課題：ゲッターでasを使用してしまっている。
+    なぜ：
+    _computerPlayersを初期化する為には、非同期処理でCPUの数を取得しなければならない。
+    コンストラクタ内で、非同期処理で取得して初期化する実装をすると、初期化子がないとのエラーが発生するため、
+    以下のような実装になってしまった。
+  */
+
+
   private readonly _dealer: Dealer;
   private readonly _player: Player;
-  private readonly _computerPlayers: ComputerPlayer[];
+  private _computerPlayers?: ComputerPlayer[];
 
-  constructor(totalPlayers: number) {
+  constructor() {
     // 生成方法の設定をし、トランプを生成する
     const CardTypes = ['スペード', 'ハート', 'ダイヤ', 'クラブ'];
     const jokerNumber = 0;
@@ -23,7 +35,6 @@ export class GameMaster {
     // 参加者・進行役のインスタンスを生成
     this._dealer = new Dealer(deckOfCards, new HandCard());
     this._player = new Player(deckOfCards, new HandCard());
-    this._computerPlayers = createComputerPlayer(totalPlayers, deckOfCards);
   }
 
   get dealer(): Dealer {
@@ -35,11 +46,17 @@ export class GameMaster {
   }
 
   get computerPlayers(): ComputerPlayer[] {
-    return this._computerPlayers;
+    return this._computerPlayers as ComputerPlayer[];
   }
 
   // ゲームを開始する関数
   async gameStart(): Promise<void> {
+
+    // ゲームを開始し、コンピューターを生成する。
+    await this.initializeComputerPlayer(this.player.deckOfCards).catch(
+      () => {}
+    );
+
     // プレイヤーとCPUが各自2枚のトランプを取得する
     [this.player, ...this.computerPlayers].forEach((participant) => {
       participant.drawCardRandomOne();
@@ -84,6 +101,12 @@ export class GameMaster {
     this.computerPlayers.push(...newComputerPlayers);
   }
 
+  // CPUの人数を取得し、人数分のCPUのインスタンスを生成する。
+  async initializeComputerPlayer(deckOfCards: Card): Promise<void> {
+    const totalPlayers = await gmaeStartAndQuetion();
+    this._computerPlayers = createComputerPlayer(totalPlayers, deckOfCards);
+  }
+
   // 勝者を発表する関数
   private displayWinner(): void {
     // 参加者全員の名前と得点のオブジェクトを格納した配列をつくる
@@ -109,7 +132,7 @@ export class GameMaster {
 
   // 参加者全員の得点を取得して、名前と得点を含むオブジェクトの配列を返す関数
   private createAllNameAndScore(): AllNameAndScore[] {
-    const participants = [this._dealer, this._player, ...this._computerPlayers];
+    const participants = [this._dealer, this._player, ...this.computerPlayers];
     const computerPlayersScore = participants.map(({ name, handCards }) => {
       const score = handCards.calculateCardScore();
       return { name, score };

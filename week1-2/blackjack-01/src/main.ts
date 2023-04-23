@@ -1,5 +1,4 @@
 import { GameMaster } from './classes/gameMaster/gameMaster';
-import { gmaeStartAndQuetion } from './utils/gameStart';
 import { questionYesOrNo } from './utils/questionYesOrNo';
 
 const blackJackGame = async (): Promise<void> => {
@@ -8,8 +7,7 @@ const blackJackGame = async (): Promise<void> => {
     'ブラックジャックをはじめますか？（y/n）'
   );
   if (isStart) {
-    const totalPlayers = await gmaeStartAndQuetion();
-    const gameMaster = new GameMaster(totalPlayers);
+    const gameMaster = new GameMaster();
     await gameMaster.gameStart();
   }
 };
