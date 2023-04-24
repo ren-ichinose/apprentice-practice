@@ -15,22 +15,19 @@
 root
 ├── week1-2
 │    ├── quest-typescript
-│    │   └── quest_1
-│    │   └── quest_2 
+│    │   └── quest_x
+│    │   └── quest_x 
 │    └── quest-ruby
-│        └── quest_3
+│        └── quest_x
 └── week3-4
-     ├── quest-typescript
-     │   └── quest_1
-     │   └── quest_3
-     └── quest-ruby
-         └── quest_2
+     ├── linux-practice
+     └── Git-github-practice
 </pre>
 
 #### ブランチの運用規則  
-- 命名規則：yymmdd-quest 230416_blackjack
+- 命名規則：yymmdd-quest yymmdd_blackjack
 - 日毎にブランチを切る。
 
 #### コミットの規則
-- 命名規則：bjg_xxxxx quest_blackjack
+- 命名規則：bjg_xxxxx quest_xxxxx
 
