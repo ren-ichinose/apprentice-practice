@@ -36,7 +36,7 @@
 - ユーザーの入力とコンピューターの出力をそれぞれに伝える役割。  
 
 
-## ディレクトを操作しよう  
+## ディレクトリを操作しよう  
 
 ### 現在のディレクトリを表示
 ```bash
@@ -82,4 +82,18 @@ mkdir projects
 ### `projects`ディレクトリの削除
 ```bash
 rm -r projects
+```
+
+
+## マニュアルを確認できる  
+
+### man コマンド
+```bash
+rm -r projects
+```
+
+bash: man: command not foundの場合
+```bash
+apt-get update
+apt-get install -y man
 ```
