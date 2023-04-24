@@ -97,3 +97,58 @@ bash: man: command not foundの場合
 apt-get update
 apt-get install -y man
 ```
+
+
+## ファイルを操作できる  
+
+### /etc/hosts ファイルの中身を出力
+```bash
+cat /etc/hosts
+```
+
+### /etc/hosts ファイルの中身をスクロール式で表示
+```bash
+less /etc/hosts
+```
+
+### README.md という名前の空ファイルを作成
+```bash
+touch README.md
+```
+
+### README.md ファイルの名前を TMP.md という名前に変更
+```bash
+mv README.md TMP.md
+```
+
+### TMP.md ファイルをコピーして COPY.md ファイルを作成
+```bash
+rm TMP.md
+```
+
+### TMP.md ファイルをコピーして COPY.md ファイルを作成
+```bash
+cp TMP.md COPY.md
+```
+
+###  シンボリックを使いこなす
+```bash
+ln -s README.md README_SYMBOLIC.md
+echo "Hello world" >> README.md
+cat README_SYMBOLIC.md
+```
+
+### ホームディレクトリ以下のファイルに対して、README という文字列が含まれるファイルを全て検索
+```bash
+find ~/ -type f -name 'README*'
+```
+
+### ~/sample.txtファイルを作成 → `apple　banana　grape　lemon`を追記 → `a`で始まる単語を検索
+```bash
+touch ~/sample.txt
+echo "apple
+banana
+grape
+lemon" > ~/sample.txt
+grep '^a' sample.txt
+```
