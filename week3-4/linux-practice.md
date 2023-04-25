@@ -85,7 +85,7 @@ rm -r projects
 ```
 
 
-## マニュアルを確認できる  
+## マニュアルを確認しよう  
 
 ### man コマンド
 ```bash
@@ -99,7 +99,7 @@ apt-get install -y man
 ```
 
 
-## ファイルを操作できる  
+## ファイルを操作しよう  
 
 ### /etc/hosts ファイルの中身を出力
 ```bash
@@ -154,7 +154,7 @@ grep '^a' sample.txt
 ```
 
 
-## 標準入出力を扱える  
+## 標準入出力を操作しよう  
 
 ### 標準入力、標準出力、標準エラー出力とは
 - 標準入力：その環境における、標準の入力元からの入力（キーボードから入力）
@@ -190,4 +190,35 @@ ls / > /dev/null
  ### ルートディレクトリを`ls`コマンドで参照した結果のうち`l`から始まるものだけを、パイプラインを使用して一回のコマンドで表示
 ```bash
 ls / | grep '^l'
+```
+
+
+## パーミッションを操作しよう  
+
+### `README.md`という名前の空ファイルを作成し、ファイルのオーナーとグループを確認
+```bash
+touch ~/README.md
+ls -l ~/README.md
+```
+
+### README.md ファイルのオーナーに対して、読み取り、書き込み、実行の全ての権限を付与
+```bash
+chmod u+rwx ~/README.md
+```
+
+### permission という名前の空ディレクトリを作成 → permission ディレクトリのグループに対して、書き込み権限を付与
+```bash
+chmod g+w ~/permission/
+```
+
+### スーパーユーザーとして、ホームディレクトリの直下に superuser という名前の空ディレクトリを作成 → ディレクトリの権限を確認
+```bash
+sudo mkdir superuser
+ls -ld superuser/
+```
+
+bash: sudo: command not foundの場合
+```bash
+apt-get update
+apt-get install sudo
 ```
