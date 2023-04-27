@@ -21,8 +21,8 @@ do
     read -sp "パスワードを入力してください：" password
 
     gpg $data_file_path.gpg
-    echo "${service}:${name}:${password}" >> $data_file_path
     rm $data_file_path.gpg
+    echo "${service}:${name}:${password}" >> $data_file_path
     
     gpg -c $data_file_path
     rm $data_file_path
