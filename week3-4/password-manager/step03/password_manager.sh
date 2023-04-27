@@ -1,19 +1,24 @@
 #!/bin/bash
 
-echo "パスワードマネージャーへようこそ！"
 data_file_path="data.txt"
 
+function error_handler() {
+  if [ -f $data_file_path ]; then
+    rm $data_file_path
+  fi
+  echo " Thank you!"
+  exit 0
+}
+trap error_handler SIGINT
+
+echo "パスワードマネージャーへようこそ！"
 while true;
 do
-  echo "次の選択肢から入力してください(Add Password/Get Password/Exit)："
-  read mode
+  read -p "次の選択肢から入力してください(Add Password/Get Password/Exit)：" mode
   if [ "$mode" = "Add Password" ]; then
-    echo "サービス名を入力してください："
-    read service
-    echo "ユーザー名を入力してください："
-    read name
-    echo "パスワードを入力してください："
-    read password
+    read -p "サービス名を入力してください：" service
+    read -p "ユーザー名を入力してください：" name
+    read -sp "パスワードを入力してください：" password
 
     gpg $data_file_path.gpg
     echo "${service}:${name}:${password}" >> $data_file_path
@@ -25,14 +30,13 @@ do
     echo "パスワードの追加は成功しました"
 
   elif [ "$mode" = "Get Password" ]; then
-    echo "サービス名を入力してください："
-    read service
+    read -p "サービス名を入力してください：" service
 
     gpg $data_file_path.gpg
     result=$(grep "^$service:" $data_file_path)
 
     if [ -z "$result" ]; then
-      echo "そのサービスは登録されていません。"
+      echo "そのサービスは登録されていません"
     else
       name=$(grep "^$service:" $data_file_path | cut -f 2 -d ":")
       password=$(grep "^$service:" $data_file_path | cut -f 3 -d ":")
@@ -47,6 +51,7 @@ do
       break
 
   else
-      echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
+      echo "入力が間違えています。Add Password/Get Password/Exit から入力してください"
   fi
 done
+
