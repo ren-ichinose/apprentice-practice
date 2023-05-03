@@ -40,32 +40,32 @@
 
 ### データベースへの接続
 RootでMySQLへ接続
-```bash
+```sql
 mysql -u root -p
 ```
 
 ### データベースの作成
-```bash
+```sql
 CREATE DATABASE practice;
 ```
 
 ### データベースの表示
-```bash
+```sqlshoq
 SHOW DATABASES;
 ```
 
 ### データベースの指定
-```bash
+```sql
 USE practice;
 ```
 
 ### 指定されているデータベースを確認
-```bash
+```sql
 SELECT DATABASE();
 ```
 
 ### データベースを削除
-```bash
+```sql
 DROP DATABASE pracitice;
 ```
 
@@ -73,36 +73,70 @@ DROP DATABASE pracitice;
 ## ユーザーの作成・権限付与・削除を理解する
 
 ### ユーザーの作成
-```bash
+```sql
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'mysql';
 ```
 
 ### ユーザーの表示
-```bash
+```sql
 SELECT user, host FROM mysql.user;
 ```
 
 ### ユーザーの権限の確認
-```bash
+```sql
 SHOW GRANTS FOR 'user'@'localhost';
 ```
 
 ### ユーザーへの権限付与
-```bash
+```sql
 GRANT ALL ON *.* TO 'user'@'localhost';
 ```
 
 ### ユーザーの権限の剥奪
-```bash
+```sql
 REVOKE ALL ON *.* FROM 'user'@'localhost';
 ```
 
 ### 権限のリロード
-```bash
+```sql
 FLUSH PRIVILEGES;
 ```
 
 ### ユーザーの削除
-```bash
+```sql
 DROP USER 'user'@'localhost';
+```
+
+
+## テーブルの作成・修正・削除を理解する
+
+### テーブルの作成
+```sql
+CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50) NOT NULL, email VARCHAR(50) NOT NULL );
+```
+
+### テーブルの表示
+```sql
+SHOW TABLES;
+```
+
+### カラムの追加
+```sql
+ALTER TABLE users ADD email VARCHAR(50);
+```
+
+### カラムの表示
+```sql
+SHOW COLUMNS FROM users;
+
+```
+
+### カラムの削除
+```sql
+ALTER TABLE users DROP COLUMN age;
+```
+
+### テーブルの削除
+```sql
+DROP TABLE users;
 ```
