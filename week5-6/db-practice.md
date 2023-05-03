@@ -69,7 +69,40 @@ SELECT DATABASE();
 DROP DATABASE pracitice;
 ```
 
-### sample
-```bash
 
+## ユーザーの作成・権限付与・削除を理解する
+
+### ユーザーの作成
+```bash
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'mysql';
+```
+
+### ユーザーの表示
+```bash
+SELECT user, host FROM mysql.user;
+```
+
+### ユーザーの権限の確認
+```bash
+SHOW GRANTS FOR 'user'@'localhost';
+```
+
+### ユーザーへの権限付与
+```bash
+GRANT ALL ON *.* TO 'user'@'localhost';
+```
+
+### ユーザーの権限の剥奪
+```bash
+REVOKE ALL ON *.* FROM 'user'@'localhost';
+```
+
+### 権限のリロード
+```bash
+FLUSH PRIVILEGES;
+```
+
+### ユーザーの削除
+```bash
+DROP USER 'user'@'localhost';
 ```
