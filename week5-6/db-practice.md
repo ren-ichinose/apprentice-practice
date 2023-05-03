@@ -140,3 +140,26 @@ ALTER TABLE users DROP COLUMN age;
 ```sql
 DROP TABLE users;
 ```
+
+
+## データの登録・検索・更新・削除を理解する
+
+### データの登録
+```sql
+INSERT INTO users(id, name, email) VALUES(1, '鈴木', 'xxx@sample.com');
+```
+
+### データの検索
+```sql
+SELECT * FROM users;
+```
+
+### データの更新
+```sql
+UPDATE users SET name = '鈴木' WHERE id = 1;
+```
+
+### データの削除
+```sql
+DELETE FROM users;
+```
