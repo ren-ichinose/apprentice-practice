@@ -1,7 +1,8 @@
 version: '3.7'
 services:
   db:
-    image: mysql:8.0
+    platform: linux/amd64
+    build: .
     ports:
       - 3306:3306
     volumes:
@@ -11,4 +12,3 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: "Asia/Tokyo"
