@@ -128,7 +128,6 @@ ALTER TABLE users ADD email VARCHAR(50);
 ### カラムの表示
 ```sql
 SHOW COLUMNS FROM users;
-
 ```
 
 ### カラムの削除
@@ -156,10 +155,33 @@ SELECT * FROM users;
 
 ### データの更新
 ```sql
-UPDATE users SET name = '鈴木' WHERE id = 1;
+UPDATE users SET name = '佐藤' WHERE id = 1;
 ```
 
 ### データの削除
 ```sql
 DELETE FROM users;
+```
+
+
+## データの検索を理解する
+
+### 全カラムの取得
+```sql
+SELECT * FROM dept_manager;
+```
+
+### カラムの選択
+```sql
+SELECT emp_no FROM dept_manager;
+```
+
+### カラム名の別名
+```sql
+SELECT emp_no AS employee_no FROM dept_manager;
+```
+
+### 重複行の削除
+```sql
+SELECT DISTINCT dept_no FROM dept_manager;
 ```
