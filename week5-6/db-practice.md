@@ -242,3 +242,21 @@ SELECT first_name, last_name FROM employees WHERE emp_no = 20000;
 ```sql
 SELECT * FROM employees WHERE birth_date LIKE '1959-01%';
 ```
+
+
+## 検索結果の並び替え
+
+### 昇順の並び替え
+```sql
+SELECT * FROM employees ORDER BY birth_date ASC LIMIT 10;
+```
+
+### 降順の並び替え
+```sql
+SELECT * FROM employees ORDER BY birth_date DESC LIMIT 10;
+```
+
+### 複数条件の並び替え
+```sql
+SELECT * FROM employees ORDER BY birth_date ASC, hire_date DESC, emp_no ASC LIMIT 30;
+```
