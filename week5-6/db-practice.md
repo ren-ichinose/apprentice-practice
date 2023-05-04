@@ -185,3 +185,60 @@ SELECT emp_no AS employee_no FROM dept_manager;
 ```sql
 SELECT DISTINCT dept_no FROM dept_manager;
 ```
+
+
+## データの絞り込みを理解する
+### 指定した行数のみ取得
+```sql
+SELECT * FROM employees LIMIT 10;
+```
+
+### 等しいデータの絞り込み
+```sql
+SELECT * FROM employees WHERE gender = 'F' LIMIT 10;
+```
+
+### 等しくないデータの絞り込み
+```sql
+SELECT * FROM employees WHERE NOT gender = 'F' LIMIT 10;
+```
+
+### より大きいデータの絞り込み
+```sql
+SELECT * FROM employees WHERE birth_date >= '1960-01-01' LIMIT 10;
+```
+
+### あいまいな条件の絞り込み
+```sql
+SELECT * FROM employees WHERE first_name LIKE '%vi%' LIMIT 10;
+```
+
+### 特定の範囲の絞り込み
+```sql
+SELECT * FROM employees WHERE birth_date BETWEEN '1960-01-01' AND '1960-01-31' LIMIT 10;
+```
+
+### かつ
+```sql
+SELECT * FROM employees WHERE first_name = 'Mary' AND gender = 'F';
+```
+
+### または
+```sql
+SELECT * FROM employees WHERE first_name = 'Mary' OR last_name = 'Peck' LIMIT 10;
+```
+
+### 含まれる
+```sql
+SELECT * FROM employees WHERE emp_no IN (10011, 10021, 10031);
+```
+
+### 抽出するカラムを絞る
+```sql
+SELECT first_name, last_name FROM employees WHERE emp_no = 20000;
+```
+
+### あいまいなデータの検索
+```sql
+SELECT * FROM employees WHERE birth_date LIKE '1959-01%';
+```
