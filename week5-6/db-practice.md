@@ -301,3 +301,52 @@ SELECT MAX(salary) FROM salaries WHERE from_date = '1986-06-26';
 ```sql
 SELECT ROUND(AVG(salary), 1) FROM salaries WHERE to_date = '1991-06-26';
 ```
+
+
+## データのグルーピングを理解する
+### グルーピング
+```sql
+SELECT emp_no, COUNT(*) FROM salaries GROUP BY emp_no LIMIT 10;
+```
+
+### グルーピングと集計関数
+```sql
+SELECT emp_no, MIN(salary), MAX(salary)
+FROM salaries
+WHERE emp_no BETWEEN 10001 AND 10010
+GROUP BY emp_no;
+```
+
+### グルーピングと集計関数2
+```sql
+SELECT emp_no, min(from_date), max(to_date)
+FROM salaries
+WHERE emp_no BETWEEN 10001 AND 10010 
+GROUP BY emp_no;
+```
+
+### 絞り込み(HAVING)
+```sql
+SELECT emp_no, MAX(salary)
+FROM salaries
+GROUP BY emp_no
+HAVING MAX(salary) > 140000;
+```
+
+### 最小給与(HAVING)
+```sql
+SELECT emp_no, MIN(salary)
+FROM salaries
+WHERE emp_no BETWEEN 10001 AND 10100 
+GROUP BY emp_no
+HAVING MIN(salary) < 40000;
+```
+
+### 最終勤務日(HAVING)
+```sql
+SELECT emp_no, MAX(to_date)
+FROM salaries
+WHERE emp_no BETWEEN 10001 AND 10100 
+GROUP BY emp_no
+HAVING MAX(to_date) < '9999-01-01';
+```
