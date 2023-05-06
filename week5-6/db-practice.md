@@ -432,3 +432,41 @@ WHERE emp_no BETWEEN 10001 AND 10010
 AND salary > (SELECT AVG(salary) FROM salaries)
 GROUP BY emp_no;
 ```
+
+
+## 条件分岐を理解する。
+### CASE
+```sql
+SELECT emp_no, to_date,
+  CASE 
+    WHEN to_date = '9999-01-01' THEN 'employed'
+    ELSE 'unemployed'
+  END AS employment_status
+FROM salaries
+WHERE emp_no BETWEEN 10100 AND 10200;
+```
+
+### 年代
+```sql
+SELECT emp_no, birth_date,
+  CASE
+    WHEN birth_date BETWEEN '1950-01-01' AND '1959-12-31' THEN '50S'
+    WHEN birth_date BETWEEN '1960-01-01' AND '1969-12-31' THEN '60s'
+    ELSE 'other'
+  END
+FROM employees
+WHERE emp_no BETWEEN 10001 AND 10050;
+```
+
+### 年代
+```sql
+SELECT 
+  CASE
+    WHEN birth_date BETWEEN '1950-01-01' AND '1959-12-31' THEN '50S'
+    WHEN birth_date BETWEEN '1960-01-01' AND '1969-12-31' THEN '60s'
+    ELSE 'other'
+  END AS age_range, MAX(salaries.salary) AS max_salary
+FROM employees
+INNER JOIN salaries ON employees.emp_no = salaries.emp_no
+GROUP BY age_range;
+```
