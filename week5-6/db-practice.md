@@ -407,3 +407,28 @@ WHERE employees.emp_no BETWEEN 10001 AND 10010;
   - 内部結合は共通して存在するデータのみを取得したい場合に使用。
   - 外部結合は共通していないデータも含めて取得したい場合に使用
 
+
+## サブクエリを理解する。
+### サブクエリ
+```sql
+SELECT emp_no, salary
+FROM salaries
+WHERE emp_no BETWEEN 10001 AND 10010
+AND salary > (SELECT AVG(salary) FROM salaries);
+```
+
+### 重複なし
+```sql
+SELECT DISTINCT emp_no
+FROM salaries
+WHERE salary > 2  * (SELECT AVG(salary) FROM salaries);
+```
+
+### 最大給与
+```sql
+SELECT emp_no, MAX(salary)
+FROM salaries
+WHERE emp_no BETWEEN 10001 AND 10010
+AND salary > (SELECT AVG(salary) FROM salaries)
+GROUP BY emp_no;
+```
