@@ -470,3 +470,24 @@ FROM employees
 INNER JOIN salaries ON employees.emp_no = salaries.emp_no
 GROUP BY age_range;
 ```
+
+
+## 実行計画を理解する。
+### SQL における実行計画とは何か
+- どうしたらより最短で実行できるか、オプティマイザによって計算して導き出された具体的な計画。
+
+### 実行計画を確認すると何が良いのか
+- よりパフォーマンスを高めるために、どのように改善すれば良いか、手がかりを見つけることができる。
+
+### 実行計画の確認
+```sql
+EXPLAIN SELECT * FROM salaries WHERE salary = 70575;
+```
+
+### 実行時間の確認
+```sql
+EXPLAIN ANALYZE SELECT * FROM salaries WHERE salary = 70575;
+```
+
+### 前者のクエリよりも実行時間が短い理由
+- 前者のクエリは全行をスキャンする必要があるが、後者のクリエはインデックスを使用して検索をしているため効率が良い。
