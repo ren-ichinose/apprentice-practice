@@ -3,13 +3,13 @@
 DATA_FILE_PATH="data.txt"
 
 function error_handler() {
-  if [ -f $DATA_FILE_PATH ]; then
-    rm $DATA_FILE_PATH
+  if [ -f "$DATA_FILE_PATH" ]; then
+    rm "$DATA_FILE_PATH"
   fi
   echo " Thank you!"
   exit 0
 }
-trap error_handler SIGINT
+trap error_handler INT
 
 echo "パスワードマネージャーへようこそ！"
 while true;
@@ -20,21 +20,21 @@ do
     read -p "ユーザー名を入力してください：" name
     read -sp "パスワードを入力してください：" password
 
-    gpg $DATA_FILE_PATH.gpg
-    rm $DATA_FILE_PATH.gpg
-    echo "${service}:${name}:${password}" >> $DATA_FILE_PATH
+    gpg "${DATA_FILE_PATH}.gpg"
+    rm "${DATA_FILE_PATH}.gpg"
+    echo "${service}:${name}:${password}" >> "$DATA_FILE_PATH"
     
-    gpg -c $DATA_FILE_PATH
-    rm $DATA_FILE_PATH
+    gpg -c "$DATA_FILE_PATH"
+    rm "$DATA_FILE_PATH"
 
     echo "パスワードの追加は成功しました"
 
   elif [ "$mode" = "Get Password" ]; then
     read -p "サービス名を入力してください：" service
 
-    gpg $DATA_FILE_PATH.gpg
-    result=$(grep "^$service:" $DATA_FILE_PATH)
-    rm $DATA_FILE_PATH
+    gpg "${DATA_FILE_PATH}.gpg"
+    result=$(grep "^$service:" "$DATA_FILE_PATH")
+    rm "$DATA_FILE_PATH"
     
     if [ -z "$result" ]; then
       echo "そのサービスは登録されていません"
