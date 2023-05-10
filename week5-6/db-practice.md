@@ -169,3 +169,35 @@ show index from employees;
 - カーディナリティが高く、値が平均的に分散している列に作成する。
   - 目安：全体のレコード数の5％程度以下
 - SQL文でWHERE句の選択条件、または結合条件に使用されている列に作成する。
+
+
+## トランザクションを理解する
+
+### トランザクションとは
+- データベースに対する複数の操作を一つのまとまりとして扱うための仕組み。
+- トランザクションを使うことで、複数の操作のまとまりが全て成功するか、あるいは一部の操作が失敗した場合は全てキャンセルすることができる。
+
+### トランザクションを実行する
+```sql
+BEGIN;
+-- トランザクションで実行したいSQL文を記述する
+COMMIT;
+```
+
+### ロールバック
+```sql
+BEGIN;
+INSERT INTO employees (first_name, last_name, birth_date) VALUES ('Taro', 'Yamada', '1990-01-01');
+SELECT * FROM employees WHERE first_name = 'Taro';
+ROLLBACK;
+SELECT * FROM employees WHERE first_name = 'Taro';
+```
+
+### コミット
+```sql
+BEGIN;
+INSERT INTO employees (first_name, last_name, birth_date) VALUES ('Taro', 'Yamada', '1990-01-01');
+SELECT * FROM employees WHERE first_name = 'Taro';
+COMMIT;
+SELECT * FROM employees WHERE first_name = 'Taro';
+```
