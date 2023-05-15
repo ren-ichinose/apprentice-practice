@@ -9,7 +9,7 @@
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | id | BIGINT |  | PRIMARY |  | YES |
-| title | VACHAR(100) |  |  |  |  |
+| title | VACHAR(255) |  |  |  |  |
 | description | TEXT |  |  |  |  |
 
 <h3>テーブル：genres</h3>
@@ -17,7 +17,7 @@
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | id | INT |  | PRIMARY |  | YES |
-| name | VACHAR(100) |  |  |  |  |
+| name | VACHAR(255) |  |  |  |  |
 
 `ユニークキー制約：nameに対して設定`  
 
@@ -37,17 +37,17 @@
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | id | INT |  | PRIMARY |  | YES |
-| name | VACHAR(100) |  |  |  |  |
+| name | VACHAR(255) |  |  |  |  |
 
 `ユニークキー制約：nameに対して設定`  
 
-<h3>テーブル：seasons</h3>
+<h3>テーブル：programs_seasons</h3>
 
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| id | INT |  | PRIMARY |  | YES |
-| season_number | INT |  |  |  |  |
-| program_id | BIGINT |  | INDEX |  |  |
+| id | BIGINT |  | PRIMARY |  | YES |
+| program_id | BIGINT |  |  | INDEX |  |
+| season_number | INT | YES |  |  |  |
 
 `ユニークキー制約：season_numberとprogram_idの複合ユニークキーを設定`  
 `外部キー制約：program_idはprogramsテーブルのidカラムを参照`  
@@ -56,19 +56,17 @@
 
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| id | INT |  | PRIMARY |  | YES |
+| id | BIGINT |  | PRIMARY |  | YES |
 | episode_number | INT | YES |  |  |  |
-| title | VACHAR(100) |  |  |  |  |
+| title | VACHAR(255) |  |  |  |  |
 | description | TEXT |  |  |  |  |
 | duration | INT |  |  |  |  |
 | release_date | DATE |  |  |  |  |
-| views | INT |  |  | 0 |  |
-| season_id | INT | YES | INDEX |  |  |
-| program_id | BIGINT |  | INDEX |  |  |
+| views | BIGINT |  |  | 0 |  |
+| program_seasons_id | BIGINT |  | INDEX |  |  |
 
-`ユニークキー制約：season_numberとepisode_numberの複合ユニークキーを設定`  
-`外部キー制約：season_idはseasonsテーブルのidカラムを参照`  
-`外部キー制約：program_idはprogramsテーブルのidカラムを参照`  
+`ユニークキー制約：episode_numberとprogram_seasons_idの複合ユニークキーを設定`  
+`外部キー制約：program_seasons_idはprograms_seasonsテーブルのidカラムを参照`  
 
 
 <h3>テーブル：program_slots</h3>
@@ -79,8 +77,8 @@
 | start_time | DATETIME |  |  |  |  |
 | end_time  | DATETIME |  |  |  |  |
 | channel_id | INT |  |  |  |  |
-| episode_id | INT |  | INDEX |  |  |
-| views | INT |  |  | 0 |  |
+| episode_id | BIGINT |  | INDEX |  |  |
+| views | BIGINT |  |  | 0 |  |
 
 `ユニークキー制約：start_timeとend_timeとchannel_idの複合ユニークキーを設定`  
 `外部キー制約：channel_idはchannelsテーブルのidカラムを参照`  

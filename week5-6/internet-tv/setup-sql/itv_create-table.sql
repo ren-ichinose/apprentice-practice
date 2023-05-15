@@ -24,27 +24,25 @@ CREATE TABLE channels (
     name VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE seasons (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    season_number INT NOT NULL,
+CREATE TABLE programs_seasons (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     program_id BIGINT NOT NULL,
+    season_number INT,
     FOREIGN KEY (program_id) REFERENCES programs(id),
     UNIQUE(season_number, program_id)
 );
 
 CREATE TABLE episodes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     episode_number INT NOT NULL,
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     duration INT NOT NULL,
     release_date DATE NOT NULL,
-    views INT NOT NULL DEFAULT 0,
-    season_id INT,
-    program_id BIGINT,
-    FOREIGN KEY (season_id) REFERENCES seasons(id),
-    FOREIGN KEY (program_id) REFERENCES programs(id),
-    UNIQUE(episode_number, season_id)
+    views BIGINT NOT NULL DEFAULT 0,
+    program_season_id BIGINT NOT NULL,
+    FOREIGN KEY (program_season_id) REFERENCES programs_seasons(id),
+    UNIQUE(episode_number, program_season_id)
 );
 
 CREATE TABLE program_slots (
@@ -52,8 +50,8 @@ CREATE TABLE program_slots (
     start_time DATETIME NOT NULL,
     end_time DATETIME NOT NULL,
     channel_id INT NOT NULL,
-    episode_id INT NOT NULL,
-    views INT NOT NULL DEFAULT 0,
+    episode_id BIGINT NOT NULL,
+    views BIGINT NOT NULL DEFAULT 0,
     FOREIGN KEY (channel_id) REFERENCES channels(id),
     FOREIGN KEY (episode_id) REFERENCES episodes(id),
     UNIQUE(start_time, end_time, channel_id)
