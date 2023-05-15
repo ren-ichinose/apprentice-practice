@@ -34,7 +34,16 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
     (3, 7),
     (4, 8),
     (4, 9),
-    (5, 10);
+    (5, 10),
+    (6, 10),
+    (6, 2),
+    (6, 3),
+    (8, 4),
+    (8, 5),
+    (9, 6),
+    (9, 7),
+    (10, 8),
+    (10, 9);
 
 INSERT INTO channels (name) VALUES
     ('Channel A'),
