@@ -2,7 +2,8 @@
   "name": "javascript_practice",
   "packageManager": "yarn@3.5.0",
   "scripts": {
-    "lint": "eslint './src/**/*.ts'"
+    "lint": "eslint './src/**/*.ts'",
+    "prepare": "cd ../../ && husky install week7-8/javascript_practice/.husky"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "latest",
@@ -12,6 +13,8 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
   }
