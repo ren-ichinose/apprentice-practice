@@ -53,7 +53,7 @@ INSERT INTO channels (name) VALUES
     ('Channel E');
 
 
-INSERT INTO programs_seasons (program_id, season_number) VALUES
+INSERT INTO program_seasons (program_id, season_number) VALUES
     (1, 1),
     (1, 2),
     (2, 1),

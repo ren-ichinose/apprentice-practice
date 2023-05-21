@@ -24,7 +24,7 @@ CREATE TABLE channels (
     name VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE programs_seasons (
+CREATE TABLE program_seasons (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     program_id BIGINT NOT NULL,
     season_number INT,
@@ -41,7 +41,7 @@ CREATE TABLE episodes (
     release_date DATE NOT NULL,
     views BIGINT NOT NULL DEFAULT 0,
     program_season_id BIGINT NOT NULL,
-    FOREIGN KEY (program_season_id) REFERENCES programs_seasons(id),
+    FOREIGN KEY (program_season_id) REFERENCES program_seasons(id),
     UNIQUE(episode_number, program_season_id)
 );
 

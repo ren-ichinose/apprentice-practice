@@ -41,7 +41,7 @@
 
 `ユニークキー制約：nameに対して設定`  
 
-<h3>テーブル：programs_seasons</h3>
+<h3>テーブル：program_seasons</h3>
 
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -66,7 +66,7 @@
 | program_seasons_id | BIGINT |  | INDEX |  |  |
 
 `ユニークキー制約：episode_numberとprogram_seasons_idの複合ユニークキーを設定`  
-`外部キー制約：program_seasons_idはprograms_seasonsテーブルのidカラムを参照`  
+`外部キー制約：program_seasons_idはprogram_seasonsテーブルのidカラムを参照`  
 
 
 <h3>テーブル：program_slots</h3>
@@ -121,7 +121,7 @@ MySQLに接続した状態で`itv_create-table.sql`を実行しサンプルデ�
 <summary><h2>STEP03：データを抽出するクエリ</h2></summary>　　
 
 ### エピソード視聴数トップ3のエピソードタイトルと視聴数を取得する。
-```mysql
+```sql
 SELECT title, views
 FROM episodes
 ORDER BY views DESC
@@ -129,7 +129,7 @@ LIMIT 3;
 ```
 
 ### エピソード視聴数トップ3の番組タイトル、シーズン数、エピソード数、エピソードタイトル、視聴数を取得する。
-```mysql
+```sql
 SELECT
   p.title AS program_title,
   ps.season_number  AS season_number, 
@@ -137,14 +137,14 @@ SELECT
   e.title AS episode_title,
   e.views  AS viwes
 FROM episodes e
-JOIN programs_seasons ps ON e.program_season_id = ps.id
+JOIN program_seasons ps ON e.program_season_id = ps.id
 JOIN programs p ON ps.program_id = p.id
 ORDER BY views DESC
 LIMIT 3;
 ```
 
 ### 本日放送される全ての番組に対して、チャンネル名、放送開始時刻(日付+時間)、放送終了時刻、シーズン数、エピソード数、エピソードタイトル、エピソード詳細を取得する。
-```mysql
+```sql
 SELECT 
   c.name AS channel_name, 
   psl.start_time, 
@@ -156,13 +156,13 @@ SELECT
 FROM program_slots psl
 JOIN channels c ON psl.channel_id = c.id
 JOIN episodes e ON psl.episode_id = e.id
-JOIN programs_seasons ps ON e.program_season_id = ps.id
+JOIN program_seasons ps ON e.program_season_id = ps.id
 WHERE psl.start_time BETWEEN '2023-01-01 00:00:00' AND '2023-01-01 23:59:59'
 ORDER BY psl.start_time;
 ```
 
 ### `Channel A`に対して、放送開始時刻、放送終了時刻、シーズン数、エピソード数、エピソードタイトル、エピソード詳細を本日から一週間分取得する。
-```mysql
+```sql
 SELECT
   psl.start_time, 
   psl.end_time, 
@@ -173,19 +173,19 @@ SELECT
 FROM program_slots psl
 JOIN channels c ON psl.channel_id = c.id
 JOIN episodes e ON psl.episode_id = e.id
-JOIN programs_seasons ps ON e.program_season_id = ps.id
+JOIN program_seasons ps ON e.program_season_id = ps.id
 WHERE c.name = 'Channel A' AND psl.start_time BETWEEN '2023-01-01 00:00:00' AND '2023-01-07 23:59:59'
 ORDER BY psl.start_time
 ```
 
 ### 直近一週間に放送された番組の中で、エピソード視聴数合計トップ2の番組に対して、番組タイトル、視聴数を取得する。
-```mysql
+```sql
 SELECT
   p.title AS program_title,
   SUM(psl.views) AS total_views 
 FROM program_slots psl
 JOIN episodes e ON psl.episode_id = e.id
-JOIN programs_seasons ps ON e.program_season_id = ps.id
+JOIN program_seasons ps ON e.program_season_id = ps.id
 JOIN programs p ON ps.program_id = p.id
 WHERE psl.start_time BETWEEN '2023-01-01 00:00:00' AND '2023-01-07 23:59:59'
 GROUP BY p.id
@@ -194,7 +194,7 @@ LIMIT 2;
 ```
 
 <!-- ### 番組の視聴数ランキングはエピソードの平均視聴数ランキングとします。ジャンルごとに視聴数トップの番組に対して、ジャンル名、番組タイトル、エピソード平均視聴数を取得する。
-```mysql
+```sql
 
 SELECT g.name, avg_gi.top_episode_views
 FROM genres g
@@ -207,7 +207,7 @@ JOIN (
       AVG(e.views) AS avg_episode_views,
       ps.program_id AS program_id
     FROM episodes e
-    JOIN programs_seasons ps ON e.program_season_id = ps.id
+    JOIN program_seasons ps ON e.program_season_id = ps.id
     GROUP BY ps.program_id
     ORDER BY avg_episode_views DESC) avg
   ON pg.program_id = avg.program_id
