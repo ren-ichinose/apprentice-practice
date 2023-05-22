@@ -26,7 +26,7 @@
 |カラム名|データ型|NULL|キー|初期値|AUTO INCREMENT|
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | program_id | BIGINT |  | INDEX |  |  |
-| genre_id | INT |  | INDEX |  | YES |
+| genre_id | INT |  | INDEX |  |  |
 
 `ユニークキー制約：program_idとgenre_idの複合ユニークキーを設定`  
 `外部キー制約：program_idはprogramsテーブルのidカラムを参照`  
@@ -157,7 +157,7 @@ FROM program_slots psl
 JOIN channels c ON psl.channel_id = c.id
 JOIN episodes e ON psl.episode_id = e.id
 JOIN program_seasons ps ON e.program_season_id = ps.id
-WHERE psl.start_time BETWEEN '2023-01-01 00:00:00' AND '2023-01-01 23:59:59'
+WHERE DATE(psl.start_time) = CURDATE()
 ORDER BY psl.start_time;
 ```
 
@@ -187,35 +187,10 @@ FROM program_slots psl
 JOIN episodes e ON psl.episode_id = e.id
 JOIN program_seasons ps ON e.program_season_id = ps.id
 JOIN programs p ON ps.program_id = p.id
-WHERE psl.start_time BETWEEN '2023-01-01 00:00:00' AND '2023-01-07 23:59:59'
+WHERE psl.start_time >= CURDATE() - INTERVAL 1 WEEK
 GROUP BY p.id
 ORDER BY total_views DESC
 LIMIT 2;
 ```
 
-<!-- ### 番組の視聴数ランキングはエピソードの平均視聴数ランキングとします。ジャンルごとに視聴数トップの番組に対して、ジャンル名、番組タイトル、エピソード平均視聴数を取得する。
-```sql
-
-SELECT g.name, avg_gi.top_episode_views
-FROM genres g
-JOIN (
-  SELECT pg.genre_id, MAX(avg.avg_episode_views) AS top_episode_views
-  FROM program_genres pg
-  JOIN genres g ON pg.genre_id = g.id
-  JOIN (
-    SELECT 
-      AVG(e.views) AS avg_episode_views,
-      ps.program_id AS program_id
-    FROM episodes e
-    JOIN program_seasons ps ON e.program_season_id = ps.id
-    GROUP BY ps.program_id
-    ORDER BY avg_episode_views DESC) avg
-  ON pg.program_id = avg.program_id
-  GROUP BY pg.genre_id) avg_gi
-ON g.id = avg_gi.genre_id;
-``` -->
-
 </details>
-
-
-
