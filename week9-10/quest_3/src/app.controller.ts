@@ -7,7 +7,8 @@ export default class AppController {
 
   @Get()
   @Render('index')
-  getHello(): { message: string } {
-    return { message: 'Todo List' };
+  getPageHome(): { message: string } {
+    const message = this.appService.getPageHome();
+    return { message };
   }
 }
