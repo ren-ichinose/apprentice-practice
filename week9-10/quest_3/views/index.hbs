@@ -4,32 +4,9 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <link rel='stylesheet' type='text/css' href='/css/style.css' />
-    <title>ToDoApp</title>
+    <title>ToDo List</title>
   </head>
   <body>
     <div class='container'>
-      <h1>{{message}}</h1>
-
-      <a class='new-task' href='/todos/new'>タスクを追加する</a>
-
-      <table>
-        <thead>
-          <tr>
-            <th>タスク</th>
-            <th>アクション</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- ここは後から動的コンテンツに置き換える -->
-          <tr>
-            <td>サンプルタスク</td>
-            <td>
-              <a class='edit' href='#'>編集</a>
-              <a class='delete' href='#'>削除</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </body>
+    <a href='/todos'><h1>{{id}}</h1></a>
 </html>

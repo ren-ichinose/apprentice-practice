@@ -1,0 +1,35 @@
+<html lang='ja'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='stylesheet' type='text/css' href='/css/style.css' />
+    <title>ToDoApp</title>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Todo List</h1>
+      <a class='new-task' href='/todos/new'>タスクを追加する</a>
+      <table>
+        <thead>
+          <tr>
+            <th>タスク</th>
+            <th>アクション</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ここは後から動的コンテンツに置き換える -->
+          {{#each todoItems}}
+            <tr>
+              <td>{{this.title}}</td>
+              <td>
+                <a class='edit' href='/todos/{{this.id}}'>編集</a>
+                <a class='delete' href='/todos/delete/{{this.id}}'>削除</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
