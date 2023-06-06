@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model todos {
+model Todos {
   id Int @default(autoincrement()) @id
   title String 
   created_at DateTime @default(now())

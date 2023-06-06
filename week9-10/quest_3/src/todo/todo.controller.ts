@@ -10,7 +10,7 @@ import {
   Redirect,
   Render,
 } from '@nestjs/common';
-import { todos } from '@prisma/client';
+import { Todos } from '@prisma/client';
 import TodoService from './todo.service';
 import CreateTodoDto from './dto/create-todo.dto';
 import UpdateTodoDto from './dto/update-todo.dto copy';
@@ -21,23 +21,23 @@ export default class TodoController {
 
   @Get()
   @Render('todos/index')
-  async getAll(): Promise<{ todoItems: todos[] }> {
+  async getAll(): Promise<{ todoItems: Todos[] }> {
     const todoItems = await this.todoService.getAll();
     return { todoItems };
-  }
-
-  @Get(':id')
-  @Render('todos/update')
-  async getById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<{ todoItem: todos }> {
-    const todoItem = await this.todoService.getById(id);
-    return { todoItem };
   }
 
   @Get('new')
   @Render('todos/new')
   getNewPage(): void {}
+
+  @Get(':id')
+  @Render('todos/update')
+  async getById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ todoItem: Todos }> {
+    const todoItem = await this.todoService.getById(id);
+    return { todoItem };
+  }
 
   @Post()
   @Redirect('/todos')
