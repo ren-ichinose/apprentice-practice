@@ -9,12 +9,15 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import TodosService from './todos.service';
 import CreateTodoDto from './dto/create-todo.dto';
 import UpdateTodoDto from './dto/update-todo.dto';
 import Todo from './interfaces/todo.interfaces';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('todos')
 export default class TodosController {
   constructor(private readonly todosService: TodosService) {}
@@ -31,7 +34,6 @@ export default class TodosController {
   async create(
     @Body('todo') createTodoDto: CreateTodoDto,
   ): Promise<{ todo: Todo }> {
-    console.log(createTodoDto);
     const todo = await this.todosService.create(createTodoDto);
     return { todo };
   }

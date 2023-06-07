@@ -16,3 +16,11 @@ model Todos {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model Users {
+  id Int @id @default(autoincrement())
+  email String @unique @db.VarChar(255)
+  password_digest String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
