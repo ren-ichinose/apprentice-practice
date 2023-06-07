@@ -50,13 +50,13 @@ export default class AuthService {
     const isValid = await bcrypt.compare(password, findedUser.password_digest);
     if (!isValid) throw new ForbiddenException('Email or Password incorrect');
 
-    const token = await this.generateJWT(findedUser.id, findedUser.email);
+    const token = await this.generateJwt(findedUser.id, findedUser.email);
     const user = { email, token };
 
     return user;
   }
 
-  async generateJWT(userId: number, email: string): Promise<string> {
+  async generateJwt(userId: number, email: string): Promise<string> {
     const payload = { sub: userId, email };
     const token = await this.jwtService.signAsync(payload);
     return token;
