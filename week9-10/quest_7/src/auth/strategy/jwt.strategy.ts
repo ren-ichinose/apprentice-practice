@@ -4,6 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import UserService from 'src/user/user.service';
 import removeTimestamps from 'utils/removeTimestamps';
+import { User } from '../interfaces/auth.interface';
 
 @Injectable()
 export default class JwtStrategy extends PassportStrategy(Strategy) {
@@ -18,9 +19,8 @@ export default class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ email }: { email: string }) {
+  async validate({ email }: { email: string }): Promise<User> {
     const findedUser = await this.userService.findOne(email);
-
     if (!findedUser) throw new UnauthorizedException();
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
