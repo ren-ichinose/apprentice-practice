@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import PrismaService from 'src/prisma/prisma.service';
-import removeTimestamps from 'utils/removeTimestamps';
-import CreateTodoDto from './dto/create-todo.dto';
+import removeTimestamps from 'src/utils/removeTimestamps';
 import Todo from './interfaces/todo.interfaces';
+import TodoDto from './dto/todo.dto';
 
 @Injectable()
 export default class TodosService {
@@ -15,18 +15,18 @@ export default class TodosService {
     return removeTimestamps(todos);
   }
 
-  async create(createTodoDto: CreateTodoDto): Promise<Todo> {
-    const todos = await this.prisma.todos.create({
-      data: createTodoDto,
+  async create(todoDto: TodoDto): Promise<Todo> {
+    const todo = await this.prisma.todos.create({
+      data: todoDto,
     });
 
-    return removeTimestamps(todos);
+    return removeTimestamps(todo);
   }
 
-  async update(id: number, updateTodoDto: CreateTodoDto): Promise<Todo> {
+  async update(id: number, todoDto: TodoDto): Promise<Todo> {
     const todo = await this.prisma.todos.update({
       where: { id },
-      data: updateTodoDto,
+      data: todoDto,
     });
     return removeTimestamps(todo);
   }

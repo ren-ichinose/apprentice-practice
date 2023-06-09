@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import UserService from 'src/user/user.service';
-import removeTimestamps from 'utils/removeTimestamps';
+import removeTimestamps from 'src/utils/removeTimestamps';
 import { User } from '../interfaces/auth.interface';
 
 @Injectable()

@@ -13,12 +13,11 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import TodosService from './todos.service';
-import CreateTodoDto from './dto/create-todo.dto';
-import UpdateTodoDto from './dto/update-todo.dto';
 import Todo from './interfaces/todo.interfaces';
+import TodoDto from './dto/todo.dto';
 
-@UseGuards(AuthGuard('jwt'))
 @Controller('todos')
+@UseGuards(AuthGuard('jwt'))
 export default class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
@@ -31,19 +30,17 @@ export default class TodosController {
   }
 
   @Post()
-  async create(
-    @Body('todo') createTodoDto: CreateTodoDto,
-  ): Promise<{ todo: Todo }> {
-    const todo = await this.todosService.create(createTodoDto);
+  async create(@Body('todo') todoDto: TodoDto): Promise<{ todo: Todo }> {
+    const todo = await this.todosService.create(todoDto);
     return { todo };
   }
 
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateTodoDto: UpdateTodoDto,
+    @Body('todo') todoDto: TodoDto,
   ): Promise<{ todo: Todo }> {
-    const todo = await this.todosService.update(id, updateTodoDto);
+    const todo = await this.todosService.update(id, todoDto);
     return { todo };
   }
 
