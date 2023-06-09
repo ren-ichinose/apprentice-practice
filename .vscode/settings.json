@@ -1,3 +1,3 @@
 {
-  "eslint.workingDirectories": ["./week7-8/nextjs_practice", "./week7-8/reproduction", "./week9-10/quest_3", "./week9-10/quest_7"]
+  "eslint.workingDirectories": ["./week7-8/nextjs_practice", "./week7-8/reproduction", "./week9-10/quest_3", "./week9-10/quest_7", "./week9-10/realworld"]
 }
