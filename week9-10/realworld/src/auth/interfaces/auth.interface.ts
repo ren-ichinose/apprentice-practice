@@ -3,7 +3,9 @@ export default interface UserResponse {
 
   email: string;
 
+  token: string | null;
+
   bio: string | null;
 
-  img: string | null;
+  image: string | null;
 }

@@ -7,7 +7,7 @@ import UserDTO from '../auth/dto/user.dto';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userDto: UserDTO): Promise<UserResponse> {
+  async create(userDto: UserDTO): Promise<Omit<UserResponse, 'token'>> {
     const { username, email, password } = userDto;
 
     /* eslint-disable @typescript-eslint/naming-convention */
