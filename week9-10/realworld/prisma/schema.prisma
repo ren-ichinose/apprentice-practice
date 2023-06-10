@@ -19,4 +19,17 @@ model User {
   image String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  article Article[]
+}
+
+model Article {
+id Int @id @default(autoincrement())
+slug String @unique
+title String
+description String
+body String
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+userId Int
+author User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
