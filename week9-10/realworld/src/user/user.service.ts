@@ -52,4 +52,24 @@ export class UserService {
 
     /* eslint-enable */
   }
+
+  async getByid(
+    id: number,
+  ): Promise<Omit<User, 'created_at' | 'updated_at'> | null> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+
+    /* eslint-disable @typescript-eslint/naming-convention */
+
+    const { created_at, updated_at, ...rest } = user;
+    return rest;
+
+    /* eslint-enable */
+  }
 }

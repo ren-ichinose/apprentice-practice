@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
 import CreateArticleDto from './dto/create-article.dto';
@@ -10,6 +15,37 @@ export class ArticleService {
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
   ) {}
+
+  async getSingle(slug: string): Promise<ResponseArticle> {
+    const findedArticle = await this.prisma.article.findUnique({
+      where: { slug },
+    });
+    if (!findedArticle) throw new NotFoundException();
+
+    const getedUser = await this.userService.getByid(findedArticle.userId);
+    if (!getedUser)
+      throw new BadRequestException('ページが見つかりませんでした');
+
+    const { id, userId, ...rest } = findedArticle;
+    const { username, bio, image } = getedUser;
+
+    const author = {
+      username,
+      bio,
+      image,
+      following: false,
+    };
+
+    const article = {
+      ...rest,
+      tagList: [''],
+      favorited: false,
+      favoritesCount: 0,
+      author,
+    };
+
+    return article;
+  }
 
   async create(
     createArticleDto: CreateArticleDto,
