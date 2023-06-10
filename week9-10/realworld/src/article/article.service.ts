@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,6 +9,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
 import CreateArticleDto from './dto/create-article.dto';
 import ResponseArticle from './interfaces/article.interface';
+import UpdateArticleDto from './dto/update-article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -58,7 +60,7 @@ export class ArticleService {
     const { title, description, body, tagList } = createArticleDto;
     const { id: userId, username, bio, image } = getedUser;
 
-    const slug = title.toLowerCase().replace(/\s+/g, '-');
+    const slug = this.createValidSlug(title);
 
     const {
       id,
@@ -84,5 +86,67 @@ export class ArticleService {
     };
 
     return article;
+  }
+
+  async update(
+    updateArticleDto: UpdateArticleDto,
+    slug: string,
+    userId: number,
+  ): Promise<ResponseArticle> {
+    const findedArticle = await this.prisma.article.findUnique({
+      where: { slug },
+    });
+
+    if (!findedArticle || findedArticle.userId !== userId)
+      throw new ForbiddenException('更新ができませんでした');
+
+    const getedUser = await this.userService.getByid(findedArticle.userId);
+    if (!getedUser)
+      throw new BadRequestException('ページが見つかりませんでした');
+
+    const updatedSlug = this.createValidSlug(findedArticle.title);
+
+    const updatedArticle = await this.prisma.article.update({
+      where: { id: findedArticle.id },
+      data: { ...updateArticleDto, slug: updatedSlug },
+    });
+    const { id, userId: updatedUserId, ...rest } = updatedArticle;
+    const { username, bio, image } = getedUser;
+
+    const author = {
+      username,
+      bio,
+      image,
+      following: false,
+    };
+
+    const article = {
+      ...rest,
+      slug: updatedSlug,
+      tagList: [''],
+      favorited: false,
+      favoritesCount: 0,
+      author,
+    };
+
+    return article;
+  }
+
+  async delete(slug: string, userId: number): Promise<void> {
+    const findedArticle = await this.prisma.article.findUnique({
+      where: { slug },
+    });
+
+    if (!findedArticle || findedArticle.userId !== userId)
+      throw new ForbiddenException('削除ができませんでした');
+
+    await this.prisma.article.delete({ where: { slug } });
+  }
+
+  protected createValidSlug(title: string): string {
+    const cleanedTitle = title.toLowerCase().replace(/\s+/g, '-');
+    const validSlug = cleanedTitle.replace(/[^a-z0-9-]/g, '');
+
+    return validSlug;
   }
 }
