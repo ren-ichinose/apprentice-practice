@@ -59,7 +59,7 @@ export class ArticleController {
   }
 
   @Delete(':slug')
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard('jwt'))
   async delete(
     @Param('slug') slug: string,
