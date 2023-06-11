@@ -3,10 +3,10 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { Article, User } from '@prisma/client';
 import CreateArticleDto from './dto/create-article.dto';
 import ResponseArticle from './interfaces/article.interface';
 import UpdateArticleDto from './dto/update-article.dto';
@@ -19,33 +19,15 @@ export class ArticleService {
   ) {}
 
   async getSingle(slug: string): Promise<ResponseArticle> {
-    const findedArticle = await this.prisma.article.findUnique({
-      where: { slug },
-    });
-    if (!findedArticle) throw new NotFoundException();
+    const getedArticle = await this.getArticleDataBySlug(slug);
+    if (!getedArticle)
+      throw new NotFoundException('ページが見つかりませんでした');
 
-    const getedUser = await this.userService.getByid(findedArticle.userId);
+    const getedUser = await this.userService.getByid(getedArticle.userId);
     if (!getedUser)
       throw new BadRequestException('ページが見つかりませんでした');
 
-    const { id, userId, ...rest } = findedArticle;
-    const { username, bio, image } = getedUser;
-
-    const author = {
-      username,
-      bio,
-      image,
-      following: false,
-    };
-
-    const article = {
-      ...rest,
-      tagList: [''],
-      favorited: false,
-      favoritesCount: 0,
-      author,
-    };
-
+    const article = this.buildResponseArticleData(getedArticle, getedUser);
     return article;
   }
 
@@ -55,35 +37,22 @@ export class ArticleService {
   ): Promise<ResponseArticle> {
     const getedUser = await this.userService.getByEmail(email);
     if (!getedUser)
-      throw new UnauthorizedException('アカウントを確認してください');
+      throw new BadRequestException('アカウントを確認してください');
 
     const { title, description, body, tagList } = createArticleDto;
-    const { id: userId, username, bio, image } = getedUser;
+    const { id: userId } = getedUser;
+    const slug = this.createSlug(title);
 
-    const slug = this.createValidSlug(title);
-
-    const {
-      id,
-      userId: createdUserid,
-      ...rest
-    } = await this.prisma.article.create({
+    const createdArticle = await this.prisma.article.create({
       data: { slug, title, description, body, userId },
     });
 
-    const author = {
-      username,
-      bio,
-      image,
-      following: false,
-    };
-
-    const article = {
-      ...rest,
-      tagList: tagList || [''],
-      favorited: false,
-      favoritesCount: 0,
-      author,
-    };
+    const article = this.buildResponseArticleData(
+      createdArticle,
+      getedUser,
+      undefined,
+      tagList,
+    );
 
     return article;
   }
@@ -93,25 +62,49 @@ export class ArticleService {
     slug: string,
     userId: number,
   ): Promise<ResponseArticle> {
-    const findedArticle = await this.prisma.article.findUnique({
-      where: { slug },
-    });
-
-    if (!findedArticle || findedArticle.userId !== userId)
+    const getedArticle = await this.getArticleDataBySlug(slug);
+    if (!getedArticle || getedArticle.userId !== userId)
       throw new ForbiddenException('更新ができませんでした');
 
-    const getedUser = await this.userService.getByid(findedArticle.userId);
+    const getedUser = await this.userService.getByid(getedArticle.userId);
     if (!getedUser)
       throw new BadRequestException('ページが見つかりませんでした');
 
-    const updatedSlug = this.createValidSlug(findedArticle.title);
+    const updatedSlug = this.createSlug(getedArticle.title);
 
     const updatedArticle = await this.prisma.article.update({
-      where: { id: findedArticle.id },
+      where: { id: getedArticle.id },
       data: { ...updateArticleDto, slug: updatedSlug },
     });
-    const { id, userId: updatedUserId, ...rest } = updatedArticle;
-    const { username, bio, image } = getedUser;
+
+    const article = this.buildResponseArticleData(updatedArticle, getedUser);
+    return article;
+  }
+
+  async delete(slug: string, userId: number): Promise<void> {
+    const getedArticle = await this.getArticleDataBySlug(slug);
+
+    if (!getedArticle || getedArticle.userId !== userId)
+      throw new ForbiddenException('削除ができませんでした');
+
+    await this.prisma.article.delete({ where: { slug } });
+  }
+
+  private async getArticleDataBySlug(slug: string): Promise<Article | null> {
+    const getedArticle = await this.prisma.article.findUnique({
+      where: { slug },
+    });
+    return getedArticle;
+  }
+
+  private buildResponseArticleData(
+    articleData: Article,
+    authorData: Omit<User, 'created_at' | 'updated_at'>,
+    slugData?: string,
+    tagListData?: string[],
+  ): ResponseArticle {
+    const { id, userId, slug, ...rest } = articleData;
+    const { username, bio, image } = authorData;
 
     const author = {
       username,
@@ -122,8 +115,8 @@ export class ArticleService {
 
     const article = {
       ...rest,
-      slug: updatedSlug,
-      tagList: [''],
+      slug: slugData || slug,
+      tagList: tagListData || [],
       favorited: false,
       favoritesCount: 0,
       author,
@@ -132,21 +125,9 @@ export class ArticleService {
     return article;
   }
 
-  async delete(slug: string, userId: number): Promise<void> {
-    const findedArticle = await this.prisma.article.findUnique({
-      where: { slug },
-    });
-
-    if (!findedArticle || findedArticle.userId !== userId)
-      throw new ForbiddenException('削除ができませんでした');
-
-    await this.prisma.article.delete({ where: { slug } });
-  }
-
-  protected createValidSlug(title: string): string {
+  private createSlug(title: string): string {
     const cleanedTitle = title.toLowerCase().replace(/\s+/g, '-');
     const validSlug = cleanedTitle.replace(/[^a-z0-9-]/g, '');
-
     return validSlug;
   }
 }
