@@ -216,7 +216,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Token {{token}}"
+                "value": "Bearer {{token}}"
               }
             ],
             "body": {
@@ -277,7 +277,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Token {{token}}"
+                "value": "Bearer {{token}}"
               }
             ],
             "body": {
@@ -340,7 +340,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Token {{token}}"
+                "value": "Bearer {{token}}"
               }
             ],
             "body": {
@@ -370,7 +370,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Token {{token}}"
+                "value": "Bearer {{token}}"
               }
             ],
             "body": {
