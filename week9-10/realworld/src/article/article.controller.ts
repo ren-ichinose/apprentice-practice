@@ -49,13 +49,13 @@ export class ArticleController {
     @Param('slug') slug: string,
     @Req() { user }: { user: Payload },
     @Body('article') updateArticleDto: UpdateArticleDto,
-  ): Promise<ResponseArticle> {
+  ): Promise<{ article: ResponseArticle }> {
     const article = await this.articleService.update(
       updateArticleDto,
       slug,
       user.sub,
     );
-    return article;
+    return { article };
   }
 
   @Delete(':slug')
