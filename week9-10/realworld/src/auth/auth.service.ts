@@ -14,32 +14,31 @@ export class AuthService {
   ) {}
 
   async signUp(userDto: UserDTO): Promise<UserResponse> {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const crestedUser = await this.userService.create(userDto);
     const user = { ...crestedUser, token: null };
     return user;
   }
 
   async login(authDto: AuthDto): Promise<UserResponse> {
-    const findedUser = await this.userService.getByEmail(authDto.email);
-    if (!findedUser)
+    const geteddUser = await this.userService.getByEmail(authDto.email);
+    if (!geteddUser)
       throw new UnauthorizedException(
         'ユーザー名またはパスワードを確認してください',
       );
 
-    const isValid = await bcrypt.compare(authDto.password, findedUser.password);
+    const isValid = await bcrypt.compare(authDto.password, geteddUser.password);
     if (!isValid)
       throw new UnauthorizedException(
         'ユーザー名またはパスワードを確認してください',
       );
 
-    const { id, username, email, bio, image } = findedUser;
+    const { id, username, email, bio, image } = geteddUser;
     const user = {
       username,
       email,
-      token: await this.generateJWT(id, email, username),
       bio,
       image,
+      token: await this.generateJWT(id, email, username),
     };
 
     return user;
