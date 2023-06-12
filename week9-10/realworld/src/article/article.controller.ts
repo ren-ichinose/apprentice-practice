@@ -38,7 +38,7 @@ export class ArticleController {
   ): Promise<{ article: ResponseArticle }> {
     const article = await this.articleService.create(
       createArticleDto,
-      user.email,
+      user.sub,
     );
     return { article };
   }

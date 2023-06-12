@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { Article, User } from '@prisma/client';
+import { Article } from '@prisma/client';
 import CreateArticleDto from './dto/create-article.dto';
 import ResponseArticle from './interfaces/article.interface';
 import UpdateArticleDto from './dto/update-article.dto';
@@ -23,36 +23,27 @@ export class ArticleService {
     if (!getedArticle)
       throw new NotFoundException('ページが見つかりませんでした');
 
-    const getedUser = await this.userService.getByid(getedArticle.userId);
-    if (!getedUser)
-      throw new BadRequestException('ページが見つかりませんでした');
+    const article = await this.buildResponseArticleData(getedArticle);
+    if (!article) throw new BadRequestException('ページが見つかりませんでした');
 
-    const article = this.buildResponseArticleData(getedArticle, getedUser);
     return article;
   }
 
   async create(
     createArticleDto: CreateArticleDto,
-    email: string,
+    userId: number,
   ): Promise<ResponseArticle> {
-    const getedUser = await this.userService.getByEmail(email);
-    if (!getedUser)
-      throw new BadRequestException('アカウントを確認してください');
-
     const { title, description, body, tagList } = createArticleDto;
-    const { id: userId } = getedUser;
+
     const slug = this.createSlug(title);
+    const data = { slug, title, description, body, userId };
+    const createdArticle = await this.prisma.article.create({ data });
 
-    const createdArticle = await this.prisma.article.create({
-      data: { slug, title, description, body, userId },
-    });
-
-    const article = this.buildResponseArticleData(
+    const article = await this.buildResponseArticleData(
       createdArticle,
-      getedUser,
-      undefined,
       tagList,
     );
+    if (!article) throw new BadRequestException('ページが見つかりませんでした');
 
     return article;
   }
@@ -66,18 +57,17 @@ export class ArticleService {
     if (!getedArticle || getedArticle.userId !== userId)
       throw new ForbiddenException('更新ができませんでした');
 
-    const getedUser = await this.userService.getByid(getedArticle.userId);
-    if (!getedUser)
-      throw new BadRequestException('ページが見つかりませんでした');
-
     const updatedSlug = this.createSlug(getedArticle.title);
 
+    const data = { ...updateArticleDto, slug: updatedSlug };
     const updatedArticle = await this.prisma.article.update({
       where: { id: getedArticle.id },
-      data: { ...updateArticleDto, slug: updatedSlug },
+      data,
     });
 
-    const article = this.buildResponseArticleData(updatedArticle, getedUser);
+    const article = await this.buildResponseArticleData(updatedArticle);
+    if (!article) throw new BadRequestException('ページが見つかりませんでした');
+
     return article;
   }
 
@@ -97,14 +87,15 @@ export class ArticleService {
     return getedArticle;
   }
 
-  private buildResponseArticleData(
+  private async buildResponseArticleData(
     articleData: Article,
-    authorData: Omit<User, 'created_at' | 'updated_at'>,
-    slugData?: string,
     tagListData?: string[],
-  ): ResponseArticle {
+  ): Promise<ResponseArticle | null> {
+    const getedUser = await this.userService.getByid(articleData.userId);
+    if (!getedUser) return null;
+
     const { id, userId, slug, ...rest } = articleData;
-    const { username, bio, image } = authorData;
+    const { username, bio, image } = getedUser;
 
     const author = {
       username,
@@ -114,8 +105,8 @@ export class ArticleService {
     };
 
     const article = {
+      slug,
       ...rest,
-      slug: slugData || slug,
       tagList: tagListData || [],
       favorited: false,
       favoritesCount: 0,
